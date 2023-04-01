@@ -36,32 +36,38 @@ class User:
             else:
                 return True
 
-
     def login(self):
-        print("=== Login ===")
-        name = str.capitalize(input("Masukkan username: "))
-        password = str(pwinput.pwinput("Masukkan password: "))
-        user = db.dataAcc.find_one({"name": name, "password": password})
-        if user:
-            if user.get("role") == "admin":
-                print("Login berhasil!")
-                self.logged_in = True
-                self.username = user["name"]
-                self.password = user["password"]
-                self.role = user["role"]
-                main.MenuUtama().menuAdmin()
-                return True
-            elif user.get("role") == "user":
-                print("Login berhasil!")
-                self.logged_in = True
-                self.username = user["name"]
-                self.password = user["password"]
-                self.role = user["role"]
-                main.MenuUtama().menuUser()
-                return True
-        else:
-            print("Username atau password salah!")
-            return False
+        print("----------------------- LOGIN ---------------------------")
+        count = 3
+        while count >= 0:
+            count -= 1
+            name = str.capitalize(input("> Masukkan username anda: "))
+            password = str(pwinput.pwinput("> Masukkan password anda: "))
+            user = db.dataAcc.find_one({"name": name, "password": password})
+            if user and user["name"] == name and user["password"] == password:
+                if user:
+                    if user.get("role") == "admin":
+                        print("Login berhasil!")
+                        self.logged_in = True
+                        self.username = user["name"]
+                        self.password = user["password"]
+                        self.role = user["role"]
+                        main.MenuUtama().menuAdmin()
+                        return True
+                    elif user.get("role") == "user":
+                        print("Login berhasil!")
+                        self.logged_in = True
+                        self.username = user["name"]
+                        self.password = user["password"]
+                        self.role = user["role"]
+                        main.MenuUtama().menuUser()
+                        return True
+            else:
+                print('Username atau Password Salah!')
+                print('Anda Memiliki', count, 'Kali Percobaan')
+                if count == 0:
+                    print('Anda telah mencapai batas maksimum percobaan login. Silakan coba lagi nanti.')
+                    return False
 
 
     def forgot_password(self):
