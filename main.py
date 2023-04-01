@@ -1,25 +1,41 @@
 from Controller import auth_controller
+from Controller import flight_controller as fc
+from View import flight_view
 import os
 
-class MenuUtama:
+class Main:
+
+
     def __init__(self):
         self.auth = auth_controller.User()
+        self.flight = fc.LinkedList()
+        self.flight_view = flight_view.LinkedList()
 
     def register(self):
         self.auth.register()
 
     def login(self):
         self.auth.login()
-
+        
     def forgot_password(self):
         self.auth.forgot_password()
 
     def logout(self):
         self.auth.logout()
 
-class Main:
+    def add_flight(self):
+        self.flight.addFlight()
+
+    def view_flight(self):
+        self.flight_view.display()
+
+
+class MenuUtama:
+
+
     def __init__(self):
-        self.menu = MenuUtama()
+        self.main = Main()
+
 
     def run(self):
         os.system('cls')
@@ -40,16 +56,17 @@ class Main:
             opsi = str(input('Tentukan opsi anda (1/2/3/4): '))
 
             if opsi == '1':
-                self.menu.register()
+                self.main.register()
             elif opsi == '2':
-                self.menu.login()
+                self.main.login()
             elif opsi == '3':
-                self.menu.forgot_password()
+                self.main.forgot_password()
             elif opsi == '4':
-                self.menu.logout()
-                break
+                print('Terima kasih telah menggunakan layanan kami!')
+                exit()
             else:
                 print('Opsi tidak tersedia!')
+        
 
     def menuAdmin(self):
         while True:
@@ -58,25 +75,53 @@ class Main:
             print("==================================")
             print("|-----> Menu yang tersedia <-----|")
             print("|                                |")
-            print("|    1. Menu Pesawat             |")
-            print("|    2. Menu Hotel               |")
+            print("|    1. Halaman Pesawat          |")
+            print("|    2. Halaman Hotel            |")
             print("|    3. Sign Out                 |")
             print("|                                |")
             print("==================================")
             opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
             if opsi == '1':
-                pass
-                # menuPesawat()
+                MenuUtama.adminFlight(self)
             elif opsi == '2':
                 pass
-                # menuHotel()
             elif opsi == '3':
-                self.menu.auth.logout()
-                break
+                MenuUtama.run(self)
             else:
                 print("Opsi tidak tersedia!")
 
+
+    def adminFlight(self):
+        while True:
+            print("==================================")
+            print("|            M E N U             |")
+            print("==================================")
+            print("|-----> Menu yang tersedia <-----|")
+            print("|                                |")
+            print("|    1. Tambah Pesawat           |")
+            print("|    2. Lihat Pesawat            |")
+            print("|    3. Edit Pesawat             |")
+            print("|    4. Hapus Pesawat            |")
+            print("|    5. Sign Out                 |")
+            print("|                                |")
+            print("==================================")
+            opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
+
+            if opsi == '1':
+                
+                Main().add_flight()
+            elif opsi == '2':
+                Main().view_flight()
+            elif opsi == '3':
+                pass
+            elif opsi == '4':
+                pass
+            elif opsi == '5':
+                MenuUtama.run(self)
+            else:
+                print("Opsi tidak tersedia!")   
+                
 
     def menuUser(self):
         while True:
@@ -93,16 +138,15 @@ class Main:
             opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
             if opsi == '1':
-                Main.userFlight(self)
+                MenuUtama.userFlight(self)
             elif opsi == '2':
                 pass
                 # menuHotel()
             elif opsi == '3':
-                self.menu.auth.logout()
-                break
+                MenuUtama.run(self)
             else:
-                print("Opsi tidak tersedia!")
-
+                print("Opsi tidak tersedia!") 
+                
 
     def userFlight(self):
         while True:
@@ -113,7 +157,7 @@ class Main:
             print("|                                |")
             print("|    1. Cari Tiket Pesawat       |")
             print("|    2. Pemesanan Tiket          |")
-            print("|    3. Sign Out                 |")
+            print("|    3. Kembali                  |")
             print("|                                |")
             print("==================================")
             opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
@@ -123,12 +167,12 @@ class Main:
             elif opsi == '2':
                 pass
             elif opsi == '3':
-                self.menu.auth.logout()
-                break
+                MenuUtama.menuUser(self) 
             else:
                 print("Opsi tidak tersedia!")
+    
 
 
 if __name__ == '__main__':
-    app = Main()
-    app.run()
+    main = MenuUtama()
+    main.run()

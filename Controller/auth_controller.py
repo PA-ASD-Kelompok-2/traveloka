@@ -3,6 +3,7 @@ import main
 import pwinput
 
 class User:
+
     def __init__(self):
         self.logged_in = False
         self.main = main
@@ -10,8 +11,9 @@ class User:
         self.password = ""
         self.role = ""
 
+
     def register(self):
-        print("=== Register ===")
+        print("----------------------- REGISTRASI ----------------------")
         name = str.capitalize(input("Masukkan username: "))
         if db.dataAcc.find_one({"name": name}):
             print("Username sudah digunakan!")
@@ -21,48 +23,60 @@ class User:
             saldo = int(input("Masukkan saldo awal: "))
             email = str(input("Masukkan email: "))
             db.dataAcc.insert_one({"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler" ,"role": "user"})
-            print("Registrasi berhasil!")
-            return True
+            print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
+            print("> Username: ", name)
+            print("> Password: ", password)
+            print("> Saldo: ", saldo)
+            print("> Email: ", email)
+            print("---------------------------------------------------------")
+            confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
+            if confirm == '':
+                print("\nRegistrasi Berhasil!")
+                return True
+            else:
+                return True
+
 
     def login(self):
         print("=== Login ===")
         name = str.capitalize(input("Masukkan username: "))
         password = str(pwinput.pwinput("Masukkan password: "))
         user = db.dataAcc.find_one({"name": name, "password": password})
-        if user["role"] == "admin":
-            print("Login berhasil!")
-            self.logged_in = True
-            self.username = user["name"]
-            self.password = user["password"]
-            self.role = user["role"]
-            self.main.Main.menuAdmin(self)
-            return True
-        
-        elif user["role"] == "user":
-            print("Login berhasil!")
-            self.logged_in = True
-            self.username = user["name"]
-            self.password = user["password"]
-            self.role = user["role"]
-            self.main.Main.menuUser(self)
-            return True
-        
+        if user:
+            if user.get("role") == "admin":
+                print("Login berhasil!")
+                self.logged_in = True
+                self.username = user["name"]
+                self.password = user["password"]
+                self.role = user["role"]
+                main.MenuUtama().menuAdmin()
+                return True
+            elif user.get("role") == "user":
+                print("Login berhasil!")
+                self.logged_in = True
+                self.username = user["name"]
+                self.password = user["password"]
+                self.role = user["role"]
+                main.MenuUtama().menuUser()
+                return True
         else:
             print("Username atau password salah!")
             return False
 
+
     def forgot_password(self):
-        print("=== Lupa Password ===")
-        name = input("Masukkan username: ")
+        print("----------------------- LUPA PASSWORD -------------------")
+        name = str.capitalize(input("> Masukkan username: "))
         user = db.dataAcc.find_one({"name": name})
         if user:
-            new_password = pwinput.pwinput("Masukkan password baru: ")
+            new_password = pwinput.pwinput("> Masukkan password baru: ")
             db.dataAcc.update_one({"name": name}, {"$set": {"password": new_password}})
             print("Password berhasil diubah!")
             return True
         else:
             print("Username tidak ditemukan!")
             return False
+
 
     def logout(self):
         if self.logged_in:
@@ -73,4 +87,3 @@ class User:
             self.role = ""
         else:
             print("Tidak ada user yang login saat ini!")
-
