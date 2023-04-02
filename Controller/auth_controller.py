@@ -2,6 +2,7 @@ from Model import mongodb as db
 import main
 import pwinput
 
+
 class User:
 
     def __init__(self):
@@ -10,7 +11,6 @@ class User:
         self.username = ""
         self.password = ""
         self.role = ""
-
 
     def register(self):
         print("----------------------- REGISTRASI ----------------------")
@@ -22,7 +22,9 @@ class User:
             password = str(pwinput.pwinput("Masukkan password: "))
             saldo = int(input("Masukkan saldo awal: "))
             email = str(input("Masukkan email: "))
-            db.dataAcc.insert_one({"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler" ,"role": "user"})
+            db.dataAcc.insert_one(
+                {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
+                 "role": "user"})
             print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
             print("> Username: ", name)
             print("> Password: ", password)
@@ -69,7 +71,6 @@ class User:
                     print('Anda telah mencapai batas maksimum percobaan login. Silakan coba lagi nanti.')
                     return False
 
-
     def forgot_password(self):
         print("----------------------- LUPA PASSWORD -------------------")
         name = str.capitalize(input("> Masukkan username: "))
@@ -82,7 +83,6 @@ class User:
         else:
             print("Username tidak ditemukan!")
             return False
-
 
     def logout(self):
         if self.logged_in:

@@ -1,10 +1,13 @@
 from Controller import flight_controller as fc
 from Controller import auth_controller as auth
+import flight_view as fv
 
 class MenuAdmin:
     
     def __init__(self):
-        self.flight = fc.LinkedList()
+        self.flight = fc.Flight()
+        self.auth = auth.User()
+        self.view = fv.LinkedList()
 
     def adminFlight(self):
         while True:
@@ -23,15 +26,15 @@ class MenuAdmin:
             opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
             if opsi == '1':
-                fc.LinkedList.addFlight(self)
+                self.flight.addFlight()
             elif opsi == '2':
-                pass    
+                self.view.display()
             elif opsi == '3':
-                pass
+                self.flight.updateFlight()
             elif opsi == '4':
-                pass
+                self.flight.deleteFlight()
             elif opsi == '5':
-                auth.User.logout(self)
+                self.auth.logout()
             else:
                 print("Opsi tidak tersedia!")
 

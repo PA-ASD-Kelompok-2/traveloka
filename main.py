@@ -8,7 +8,7 @@ class Main:
 
     def __init__(self):
         self.auth = auth_controller.User()
-        self.flight = fc.LinkedList()
+        self.flight = fc.Flight()
         self.flight_view = flight_view.LinkedList()
 
     def register(self):
