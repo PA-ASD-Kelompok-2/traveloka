@@ -1,13 +1,38 @@
+from View import flight_view as fv
 from Controller import flight_controller as fc
 from Controller import auth_controller as auth
-import flight_view as fv
+import main
 
-class MenuAdmin:
-    
+
+class AdminView:
+
     def __init__(self):
         self.flight = fc.Flight()
         self.auth = auth.User()
         self.view = fv.LinkedList()
+
+    def menuAdmin(self):
+        while True:
+            print("==================================")
+            print("|            M E N U             |")
+            print("==================================")
+            print("|-----> Menu yang tersedia <-----|")
+            print("|                                |")
+            print("|    1. Halaman Pesawat          |")
+            print("|    2. Halaman Hotel            |")
+            print("|    3. Sign Out                 |")
+            print("|                                |")
+            print("==================================")
+            opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
+
+            if opsi == '1':
+                AdminView.adminFlight(self)
+            elif opsi == '2':
+                pass
+            elif opsi == '3':
+                main.MenuUtama().run()
+            else:
+                print("Opsi tidak tersedia!")
 
     def adminFlight(self):
         while True:
@@ -34,7 +59,7 @@ class MenuAdmin:
             elif opsi == '4':
                 self.flight.deleteFlight()
             elif opsi == '5':
-                self.auth.logout()
+                main.MenuUtama().run()
             else:
                 print("Opsi tidak tersedia!")
 

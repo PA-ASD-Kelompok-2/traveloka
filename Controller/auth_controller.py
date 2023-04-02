@@ -1,4 +1,6 @@
 from Model import mongodb as db
+from View import admin_view
+from View import user_view
 import main
 import pwinput
 
@@ -54,7 +56,7 @@ class User:
                         self.username = user["name"]
                         self.password = user["password"]
                         self.role = user["role"]
-                        main.MenuUtama().menuAdmin()
+                        admin_view.AdminView().menuAdmin()
                         return True
                     elif user.get("role") == "user":
                         print("Login berhasil!")
@@ -62,7 +64,7 @@ class User:
                         self.username = user["name"]
                         self.password = user["password"]
                         self.role = user["role"]
-                        main.MenuUtama().menuUser()
+                        user_view.UserView().menuUser()
                         return True
             else:
                 print('Username atau Password Salah!')
@@ -93,3 +95,4 @@ class User:
             self.role = ""
         else:
             print("Tidak ada user yang login saat ini!")
+

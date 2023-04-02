@@ -40,19 +40,23 @@ class LinkedList:
                      d['dateTime'], d['price']])
             print(table)
 
-    def search(self, keyword):
+    def search(self, key):
         data = []
-        for d in self.db.find({'airline': {'$regex': keyword}}):
+        for d in self.db.find({}):
             data.append(d)
 
         if not data:
             print("List kosong")
-        else:
-            table = PrettyTable(
-                ['ID Flight', 'Airline', 'Origin', 'Destination', 'Departure Time', 'Arrival Time', 'Date Time',
-                 'Price'])
-            for d in data:
-                table.add_row(
-                    [d['idFlight'], d['airline'], d['origin'], d['destination'], d['departureTime'], d['arrivalTime'],
-                     d['dateTime'], d['price']])
-            print(table)
+            return
+
+        n = len(data)
+        step = int(n ** 0.5)
+        prev = 0
+        while prev < n and data[prev]['idFlight'] < key:
+            prev += step
+        prev -= step
+        while prev < n:
+            if data[prev]['idFlight'] == key:
+                return FligthView(data[prev])
+            prev += 1
+        return None
