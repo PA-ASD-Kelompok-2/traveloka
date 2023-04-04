@@ -18,17 +18,17 @@ class Flight:
         price = int(input("Harga: "))
 
         def idFlight():
-            if "garuda" in airline.lower():
+            if "garuda indonesia" in airline.lower():
                 return "GA" + str(random.randint(100, 999))
-            elif "lion" in airline.lower():
+            elif "lion air" in airline.lower():
                 return "JT" + str(random.randint(100, 999))
-            elif "sriwijaya" in airline.lower():
+            elif "sriwijaya air" in airline.lower():
                 return "SJ" + str(random.randint(100, 999))
             elif "citilink" in airline.lower():
                 return "QG" + str(random.randint(100, 999))
-            elif "airasia" in airline.lower():
+            elif "air asia" in airline.lower():
                 return "QZ" + str(random.randint(100, 999))
-            elif "batik" in airline.lower():
+            elif "batik air" in airline.lower():
                 return "ID" + str(random.randint(100, 999))
             else:
                 return "XX" + str(random.randint(100, 999))
@@ -105,4 +105,5 @@ class Flight:
 
         else:
             print("Pilihan tidak tersedia!\n")
+
 

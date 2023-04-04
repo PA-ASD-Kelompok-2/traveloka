@@ -7,12 +7,12 @@ import pwinput
 
 class User:
 
+    user_session = []
+
     def __init__(self):
         self.logged_in = False
         self.main = main
         self.username = ""
-        self.password = ""
-        self.role = ""
 
     def register(self):
         print("----------------------- REGISTRASI ----------------------")
@@ -54,16 +54,14 @@ class User:
                         print("Login berhasil!")
                         self.logged_in = True
                         self.username = user["name"]
-                        self.password = user["password"]
-                        self.role = user["role"]
                         admin_view.AdminView().menuAdmin()
-                        return True
+                        return True 
                     elif user.get("role") == "user":
                         print("Login berhasil!")
                         self.logged_in = True
                         self.username = user["name"]
-                        self.password = user["password"]
-                        self.role = user["role"]
+                        session_data = {"username": self.username}
+                        User.user_session.append(session_data)
                         user_view.UserView().menuUser()
                         return True
             else:
@@ -87,12 +85,25 @@ class User:
             return False
 
     def logout(self):
-        if self.logged_in:
-            print(f"User {self.username} berhasil logout")
-            self.logged_in = False
-            self.username = ""
-            self.password = ""
-            self.role = ""
-        else:
-            print("Tidak ada user yang login saat ini!")
+        User.user_session = []
+        print("Tidak ada user yang login saat ini!")
 
+
+    def profile(self):
+        print("----------------------- PROFILE -------------------------")
+        data = User.user_session[0]["username"]
+        user = db.dataAcc.find_one({"name": data})
+        if user:
+            print("Nama: ", user["name"])
+            print("Saldo: ", user["saldo"])
+            print("Email: ", user["email"])
+            print("Privilege: ", user["privilege"])
+            print("---------------------------------------------------------")
+            confirm = input("Tekan [ENTER] jika ingin kembali ke menu utama!")
+            if confirm == '':
+                user_view.UserView().menuUser()
+            else:
+                user_view.UserView().menuUser()
+        else:
+            print("User tidak ditemukan!")
+            return False
