@@ -1,7 +1,10 @@
 from pymongo import MongoClient
+import os
+from dotenv import load_dotenv
 
-cluster = MongoClient(
-    "mongodb+srv://fauzan:CPbQN3LiePx39fmNPfssAtYkq3Q7jJACCP7dMNft@sandbox.u1rbk.mongodb.net/?retryWrites=true&w=majority")
+load_dotenv()
+
+cluster = MongoClient(os.getenv("MONGO_URI"))
 
 db = cluster["traveloka"]
 

@@ -1,8 +1,9 @@
-from Model import mongodb as db
+from Model import database as db
 from View import admin_view
 from View import user_view
 import main
 import pwinput
+import os
 
 
 class User:
@@ -15,6 +16,7 @@ class User:
         self.username = ""
 
     def register(self):
+        os.system('cls')
         print("----------------------- REGISTRASI ----------------------")
         name = str.capitalize(input("Masukkan username: "))
         if db.dataAcc.find_one({"name": name}):
@@ -23,24 +25,29 @@ class User:
         else:
             password = str(pwinput.pwinput("Masukkan password: "))
             saldo = int(input("Masukkan saldo awal: "))
-            email = str(input("Masukkan email: "))
-            db.dataAcc.insert_one(
-                {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
-                 "role": "user"})
-            print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
-            print("> Username: ", name)
-            print("> Password: ", password)
-            print("> Saldo: ", saldo)
-            print("> Email: ", email)
-            print("---------------------------------------------------------")
-            confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
-            if confirm == '':
-                print("\nRegistrasi Berhasil!")
-                return True
+            if saldo < 0:
+                print("Saldo tidak boleh kurang dari 0!")
+                return False
             else:
-                return True
+                email = str(input("Masukkan email: "))
+                db.dataAcc.insert_one(
+                    {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
+                    "role": "user"})
+                print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
+                print("> Username: ", name)
+                print("> Password: ", password)
+                print("> Saldo: ", saldo)
+                print("> Email: ", email)
+                print("---------------------------------------------------------")
+                confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
+                if confirm == '':
+                    print("\nRegistrasi Berhasil!")
+                    return True
+                else:
+                    return True
 
     def login(self):
+        os.system('cls')
         print("----------------------- LOGIN ---------------------------")
         count = 3
         while count >= 0:
@@ -54,15 +61,15 @@ class User:
                         print("Login berhasil!")
                         self.logged_in = True
                         self.username = user["name"]
-                        admin_view.AdminView().menuAdmin()
-                        return True 
+                        admin_view.AdminView().menu_admin()
+                        return True
                     elif user.get("role") == "user":
                         print("Login berhasil!")
                         self.logged_in = True
                         self.username = user["name"]
                         session_data = {"username": self.username}
                         User.user_session.append(session_data)
-                        user_view.UserView().menuUser()
+                        user_view.UserView().menu_user()
                         return True
             else:
                 print('Username atau Password Salah!')
@@ -101,9 +108,9 @@ class User:
             print("---------------------------------------------------------")
             confirm = input("Tekan [ENTER] jika ingin kembali ke menu utama!")
             if confirm == '':
-                user_view.UserView().menuUser()
+                user_view.UserView().menu_user()
             else:
-                user_view.UserView().menuUser()
+                user_view.UserView().menu_user()
         else:
             print("User tidak ditemukan!")
             return False

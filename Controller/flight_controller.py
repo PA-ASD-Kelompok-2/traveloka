@@ -1,21 +1,78 @@
-from Model import mongodb as db
-from View import flight_view as fv
+from Model import database as db
+from prettytable import PrettyTable
 import random
+import os
 
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
 
-class Flight:
+class LinkedList:
     def __init__(self):
+        self.head = None
+        self.tail = None
         self.db = db.dataFlight
 
+
+    def append(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            return
+        last_node = self.head
+        while last_node.next:
+            last_node = last_node.next
+        last_node.next = new_node
+
+    def display(self, offset=0, limit=10):
+        data = []
+        for d in self.db.find({}).skip(offset).limit(limit):
+            data.append(d)
+
+        if not data:
+            print("List kosong")
+        else:
+            table = PrettyTable(
+                ['ID Flight', 'Pesawat', 'Asal', 'Tujuan', 'Waktu Keberangkatan', 'Waktu Kedatangan', 'Tanggal Keberangkatan',
+                 'Harga'])
+            for d in data:
+                table.add_row(
+                    [d['idFlight'], d['airline'], d['origin'], d['destination'], d['departureTime'], d['arrivalTime'],
+                     d['dateTime'], d['price']])
+            print(table)
+
+    def search(self, key):
+        data = []
+        for d in self.db.find({}):
+            data.append(d)
+
+        if not data:
+            print("List kosong")
+            return
+
+        n = len(data)
+        step = int(n ** 0.5)
+        prev = 0
+        while prev < n and data[prev]['idFlight'] < key:
+            prev += step
+        prev -= step
+        while prev < n:
+            if data[prev]['idFlight'] == key:
+                return Node(data[prev])
+            prev += 1
+        return None
+
+
     def addFlight(self):
-        print("Tambah Pesawat\n")
-        airline = str(input("Nama Pesawat: "))
-        origin = str(input("Kota Asal: "))
-        destination = str(input("Kota Tujuan: "))
-        departureTime = str(input("Waktu Keberangkatan (hh:mm):"))
-        arrivalTime = str(input("Waktu Kedatangan (hh:mm): "))
-        dateTime = str(input("Tanggal Keberangkatan (yyyy-mm-dd): "))
-        price = int(input("Harga: "))
+        print("=====> Masukkan data penerbangan baru <=====")
+        airline = str(input("> Nama Pesawat: "))
+        origin = str(input("> Kota Asal: "))
+        destination = str(input("> Kota Tujuan: "))
+        departureTime = str(input("> Waktu Keberangkatan (hh:mm):"))
+        arrivalTime = str(input("> Waktu Kedatangan (hh:mm): "))
+        dateTime = str(input("> Tanggal Keberangkatan (yyyy-mm-dd): "))
+        price = int(input("> Harga tiket: "))
 
         def idFlight():
             if "garuda indonesia" in airline.lower():
@@ -44,18 +101,33 @@ class Flight:
             "price": price
         }
 
+        new_node = Node(new_flight)
+
+        if not self.head:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+
         self.db.insert_one(new_flight)
         print("Pesawat berhasil ditambahkan!\n")
 
     def deleteFlight(self):
         print("Hapus Pesawat\n")
+        self.display()
         idFlight = str(input("Masukkan ID Pesawat: "))
-        self.db.delete_one({"idFlight": idFlight})
-        print("Pesawat berhasil dihapus!\n")
+        self.search(idFlight)
+        if self.search(idFlight):
+            self.db.delete_one({"idFlight": idFlight})
+            print("Pesawat berhasil dihapus!\n")
+        else:
+            print("Pesawat tidak ditemukan!\n")
+
 
     def updateFlight(self):
         print("Edit Pesawat\n")
-        fv.LinkedList().display()
+        self.display()
         idFlight = str(input("Masukkan ID Pesawat yang ingin di update: "))
 
         print('=================================')
@@ -69,6 +141,7 @@ class Flight:
         print('|   4. Waktu Kedatangan         |')
         print('|   5. Tanggal Keberangkatan    |')
         print('|   6. Harga                    |')
+        print('|   7. Kembali                  |')
         print('|                               |')
         print('=================================')
         update = str(input('Pilih data yang ingin di update: '))
@@ -103,7 +176,9 @@ class Flight:
             self.db.update_one({"idFlight": idFlight}, {"$set": {"price": newData}})
             print("Data berhasil di update!\n")
 
+        elif update == '7':
+            return os.system('cls')
+
         else:
             print("Pilihan tidak tersedia!\n")
-
 
