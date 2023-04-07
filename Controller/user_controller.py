@@ -2,12 +2,15 @@ from Controller import flight_controller as fc
 from Controller import auth_controller as auth
 from Controller import email_controller as email
 from Model import database as db
+from datetime import datetime ###########################
+from prettytable import PrettyTable
 import random
 
 
 class Node:
-    def __init__(self, data=None):
+    def __init__(self, data=None, time=None):
         self.data = data
+        self.time = time ###########################
         self.next = None
 
 
@@ -15,8 +18,8 @@ class LinkedList:
     def __init__(self):
         self.head = None
 
-    def append(self, data):
-        new_node = Node(data)
+    def append(self, data, time): ###########################
+        new_node = Node(data, time) ###########################
         if not self.head:
             self.head = new_node
             return
@@ -28,7 +31,8 @@ class LinkedList:
     def display(self):
         curr_node = self.head
         while curr_node:
-            print(curr_node.data)
+            # print(curr_node.data)
+            print (f"{curr_node.time}: {curr_node.data}") ###########################
             curr_node = curr_node.next
 
 
@@ -57,7 +61,8 @@ class UserController:
                                         d['destination'], d['airline'], ticket_code)
 
                         transaction = f"Beli tiket {sumTicket} untuk penerbangan {idFlight} dengan total harga {total}"
-                        self.history.append(transaction)
+                        # self.history.append(transaction) ###########################
+                        self.history.append(transaction, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
                     else:
                         print("Saldo tidak cukup!")
@@ -75,9 +80,18 @@ class UserController:
         db.dataAcc.update_one({"name": user["name"]}, {"$set": {"saldo": user['saldo']}})
         print(f"Saldo berhasil ditambahkan! Saldo sekarang adalah: {user['saldo']}")
 
-        transaction = f"Menambahkan saldo sebesar {add}"
-        self.history.append(transaction)
+        transaction = f"Menambahkan saldo sebesar {add}" # dc masbroo
+        # self.history.append(transaction) ###########################
+        self.history.append(transaction, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
     def checkHistory(self):
         print("Transaction History:")
-        self.history.display()
+        table = PrettyTable()
+        table.field_names = ["Tanggal", "Transaksi"]
+        curr_node = self.history.head
+        while curr_node:
+            table.add_row([curr_node.time, curr_node.data])
+            curr_node = curr_node.next
+        
+        print(table)
+        # self.history.display()

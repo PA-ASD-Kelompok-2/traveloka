@@ -33,7 +33,7 @@ class UserView:
             if opsi == '1':
                 self.user.buyTicket()
             elif opsi == '2':
-                pass
+                self.flight.display()
             elif opsi == '3':
                 self.user.checkHistory()
             elif opsi == '4':
