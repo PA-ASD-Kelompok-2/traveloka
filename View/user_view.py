@@ -43,6 +43,6 @@ class UserView:
             elif opsi == '6':
                 main.MenuUtama().run()
             else:
-                print("Opsi tidak tersedia!")
+                print("Opsi tidak tersedia!!")
 
 
