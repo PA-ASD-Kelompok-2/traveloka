@@ -4,6 +4,7 @@ from View import user_view
 import main
 import pwinput
 import os
+import re
 
 
 class User:
@@ -16,35 +17,55 @@ class User:
         self.username = ""
 
     def register(self):
-        os.system('cls')
-        print("----------------------- REGISTRASI ----------------------")
-        name = str.capitalize(input("Masukkan username: "))
-        if db.dataAcc.find_one({"name": name}):
-            print("Username sudah digunakan!")
-            return False
-        else:
-            password = str(pwinput.pwinput("Masukkan password: "))
-            saldo = int(input("Masukkan saldo awal: "))
-            if saldo < 0:
-                print("Saldo tidak boleh kurang dari 0!")
+        try:
+            os.system('cls')
+            print("----------------------- REGISTRASI ----------------------")
+            name = str.capitalize(input("Masukkan username: "))
+            if db.dataAcc.find_one({"name": name}):
+                print("Username sudah digunakan!")
+                return False
+            if not name:
+                print("Nama pengguna tidak boleh kosong!")
+                return False
+            elif re.search("[^A-Za-z0-9_]", name):
+                print("Nama pengguna hanya boleh terdiri dari huruf, angka, dan underscore (_)!")
                 return False
             else:
-                email = str(input("Masukkan email: "))
-                db.dataAcc.insert_one(
-                    {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
-                    "role": "user"})
-                print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
-                print("> Username: ", name)
-                print("> Password: ", password)
-                print("> Saldo: ", saldo)
-                print("> Email: ", email)
-                print("---------------------------------------------------------")
-                confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
-                if confirm == '':
-                    print("\nRegistrasi Berhasil!")
-                    return True
+                password = str(pwinput.pwinput("Masukkan password: "))
+                if not password:
+                    print("Kata sandi tidak boleh kosong!")
+                    return False
+                elif re.search("[^A-Za-z0-9!@#$%^&*()_+-=]", password):
+                    print("Kata sandi hanya boleh terdiri dari huruf, angka, dan karakter simbol seperti !, @, #, $, %, ^, &, *, (, ), _, +, -, =!")
+                    return False
                 else:
-                    return True
+                    saldo = int(input("Masukkan saldo awal: "))
+                    if saldo < 0:
+                        print("Saldo tidak boleh kurang dari 0!")
+                        return False
+                    else:
+                        email = str(input("Masukkan email: "))
+                        db.dataAcc.insert_one(
+                            {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
+                            "role": "user"})
+                        print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
+                        print("> Username: ", name)
+                        print("> Password: ", password)
+                        print("> Saldo: ", saldo)
+                        print("> Email: ", email)
+                        print("---------------------------------------------------------")
+                        confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
+                        if confirm == '':
+                            print("\nRegistrasi Berhasil!")
+                            return True
+                        else:
+                            return True
+        except ValueError:
+            print("Saldo harus berupa angka!")
+            return False
+        except KeyboardInterrupt:
+            print("\nTerjadi Kesalahan")
+            return False
 
     def login(self):
         os.system('cls')
@@ -77,6 +98,7 @@ class User:
                 if count == 0:
                     print('Anda telah mencapai batas maksimum percobaan login. Silakan coba lagi nanti.')
                     return False
+                    
 
     def forgot_password(self):
         print("----------------------- LUPA PASSWORD -------------------")
@@ -90,6 +112,7 @@ class User:
         else:
             print("Username tidak ditemukan!")
             return False
+            
 
     def logout(self):
         User.user_session = []
@@ -114,3 +137,4 @@ class User:
         else:
             print("User tidak ditemukan!")
             return False
+            

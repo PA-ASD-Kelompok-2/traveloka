@@ -65,64 +65,75 @@ class LinkedList:
 
 
     def addFlight(self):
-        print("=====> Masukkan data penerbangan baru <=====")
-        airline = str(input("> Nama Pesawat: "))
-        origin = str(input("> Kota Asal: "))
-        destination = str(input("> Kota Tujuan: "))
-        departureTime = str(input("> Waktu Keberangkatan (hh:mm):"))
-        arrivalTime = str(input("> Waktu Kedatangan (hh:mm): "))
-        dateTime = str(input("> Tanggal Keberangkatan (yyyy-mm-dd): "))
-        price = int(input("> Harga tiket: "))
+        try:
+            print("=====> Masukkan data penerbangan baru <=====")
+            airline = str(input("> Nama Pesawat: "))
+            origin = str(input("> Kota Asal: "))
+            destination = str(input("> Kota Tujuan: "))
+            departureTime = str(input("> Waktu Keberangkatan (hh:mm):"))
+            arrivalTime = str(input("> Waktu Kedatangan (hh:mm): "))
+            dateTime = str(input("> Tanggal Keberangkatan (yyyy-mm-dd): "))
+            price = int(input("> Harga tiket: "))
 
-        def idFlight():
-            if "garuda indonesia" in airline.lower():
-                return "GA" + str(random.randint(100, 999))
-            elif "lion air" in airline.lower():
-                return "JT" + str(random.randint(100, 999))
-            elif "sriwijaya air" in airline.lower():
-                return "SJ" + str(random.randint(100, 999))
-            elif "citilink" in airline.lower():
-                return "QG" + str(random.randint(100, 999))
-            elif "air asia" in airline.lower():
-                return "QZ" + str(random.randint(100, 999))
-            elif "batik air" in airline.lower():
-                return "ID" + str(random.randint(100, 999))
+            def idFlight():
+                if "garuda indonesia" in airline.lower():
+                    return "GA" + str(random.randint(100, 999))
+                elif "lion air" in airline.lower():
+                    return "JT" + str(random.randint(100, 999))
+                elif "sriwijaya air" in airline.lower():
+                    return "SJ" + str(random.randint(100, 999))
+                elif "citilink" in airline.lower():
+                    return "QG" + str(random.randint(100, 999))
+                elif "air asia" in airline.lower():
+                    return "QZ" + str(random.randint(100, 999))
+                elif "batik air" in airline.lower():
+                    return "ID" + str(random.randint(100, 999))
+                else:
+                    return "XX" + str(random.randint(100, 999))
+
+            new_flight = {
+                "idFlight": idFlight(),
+                "airline": airline,
+                "origin": origin,
+                "destination": destination,
+                "departureTime": departureTime,
+                "arrivalTime": arrivalTime,
+                "dateTime": dateTime,
+                "price": price
+            }
+
+            new_node = Node(new_flight)
+
+            if not self.head:
+                self.head = new_node
+                self.tail = new_node
             else:
-                return "XX" + str(random.randint(100, 999))
+                self.tail.next = new_node
+                self.tail = new_node
 
-        new_flight = {
-            "idFlight": idFlight(),
-            "airline": airline,
-            "origin": origin,
-            "destination": destination,
-            "departureTime": departureTime,
-            "arrivalTime": arrivalTime,
-            "dateTime": dateTime,
-            "price": price
-        }
-
-        new_node = Node(new_flight)
-
-        if not self.head:
-            self.head = new_node
-            self.tail = new_node
-        else:
-            self.tail.next = new_node
-            self.tail = new_node
-
-        self.db.insert_one(new_flight)
-        print("Pesawat berhasil ditambahkan!\n")
+            self.db.insert_one(new_flight)
+            print("Pesawat berhasil ditambahkan!\n")
+        except ValueError:
+            print("Masukkan data dengan benar!\n")
+        except KeyboardInterrupt:
+            print("Terjadi Kesalahan!\n")
 
     def deleteFlight(self):
-        print("Hapus Pesawat\n")
-        self.display()
-        idFlight = str(input("Masukkan ID Pesawat: "))
-        self.search(idFlight)
-        if self.search(idFlight):
-            self.db.delete_one({"idFlight": idFlight})
-            print("Pesawat berhasil dihapus!\n")
-        else:
-            print("Pesawat tidak ditemukan!\n")
+        try:
+            print("Hapus Pesawat\n")
+            self.display()
+            idFlight = str(input("Masukkan ID Pesawat: "))
+            self.search(idFlight)
+            if self.search(idFlight):
+                self.db.delete_one({"idFlight": idFlight})
+                print("Pesawat berhasil dihapus!\n")
+            else:
+                print("Pesawat tidak ditemukan!\n")
+
+        except ValueError:
+            print("Masukkan data dengan benar!\n")
+        except KeyboardInterrupt:
+            print("Terjadi Kesalahan!\n")
 
 
     def updateFlight(self):
@@ -180,5 +191,81 @@ class LinkedList:
             return os.system('cls')
 
         else:
-            print("Pilihan tidak tersedia!\n")
+            print("Pilihan tidak tersedia!\n") 
+
+
+    # def merge_sort(self, key):
+    #     data = []
+
+    #     for i in self.db.find({}):
+    #         data.append(i)
+
+    #     if not data:
+    #         print("Data kosong!\n")
+    #         return
+            
+    #     if len(data) > 1:
+    #         mid = len(data) // 2
+    #         left = data[:mid]
+    #         right = data[mid:]
+
+    #         self.merge_sort(left)
+    #         self.merge_sort(right)
+
+    #         i = j = k = 0
+
+    #         while i < len(left) and j < len(right):
+    #             if left[i][key] < right[j][key]:
+    #                 data[k] = left[i]
+    #                 i += 1
+    #             else:
+    #                 data[k] = right[j]
+    #                 j += 1
+    #             k += 1
+
+    #         while i < len(left):
+    #             data[k] = left[i]
+    #             i += 1
+    #             k += 1
+
+    #         while j < len(right):
+    #             data[k] = right[j]
+    #             j += 1
+    #             k += 1
+
+        
+    # def sort(self):
+    #     print('=================================')
+    #     print('|   Apa yang ingin di sort?     |')
+    #     print('=================================')
+    #     print('|>>>>> Silahkan pilih opsi <<<<<|')
+    #     print('|                               |')
+    #     print('|   1. Harga                    |')
+    #     print('|   2. Waktu Keberangkatan      |')
+    #     print('|   3. Waktu Kedatangan         |')
+    #     print('|   4. Kembali                  |')
+    #     print('|                               |')
+    #     print('=================================')
+    #     sort = str(input('Pilih data yang ingin di sort: '))
+
+    #     if sort == '1':
+    #         self.merge_sort("price")
+    #         self.display()
+
+    #     elif sort == '2':
+    #         self.merge_sort("departureTime")
+    #         self.display()
+
+    #     elif sort == '3':
+    #         self.merge_sort("arrivalTime")
+    #         self.display()
+
+    #     elif sort == '4':
+    #         return os.system('cls')
+
+    #     else:
+    #         print("Pilihan tidak tersedia!\n")
+        
+
+
 
