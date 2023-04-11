@@ -82,7 +82,7 @@ didalam Controller (MVC), didalam fungsi ini, user dapat admin dapat menambah da
 adalah opsi ke-2, yaitu "Lihat pesawat", opsi ini juga akan mengarahkan user kedalam flight_controller.py didalam Controller (MVC). Opsi ke-3 juga memiliki cara kerja
 yang sama, yaitu module akan merujuk ke flight_controller.py. Lalu opsi ke-4, maka module akan merujuk kedalam Auth_controller.py didalam folder Controller (MVC).
 
-
+#### Controller - 
 
 
 
