@@ -39,6 +39,34 @@ Konsep yang digunakan adalah MVC (Model, view, Controller). MVC adalah arsitektu
 memproses input tersebut dengan menggunakan Model, 
 dan mengirimkan hasil pemrosesan tersebut ke View untuk ditampilkan.
 
-### Penjelasan Program
+### Penjelasan Program 
+#### Model - database.py
+Kode database.py merupakan kepala dari seluruh program Traveloka. 
+
+![image](https://user-images.githubusercontent.com/126738691/231100003-1a25ce9f-03d9-4ac6-88a0-8eaf58374d48.png) 
+
+Didalam kode ini, kita menggunakan Pymongo sebagai alat penghubung antara Python dengan MongoDB (MongoClient), kemudian kita melakukan import dotenv yang berfungsi sebagai environtment bagi .env. 
+Kemudian load_dotenv() berfungsi untuk menarik key - value dari cluster MongoClient (getenv("MONGO_URI")) dan menyimpannya didalam dotenv. 
+Lalu db = cluster["traveloka"] berfungsi untuk menghubungkan program Database.py dengan MongoClient yang terdapat cluster "Traveloka" didalamnya, lalu baris-baris selanjutnya berfungsi sebagai variabel pemanggil setiap bagian data program traveloka, yaitu akun, tiket pesawat, tiket hotel, dan transaksi.
+
+#### Model - main_view.py
+
+#### Model - admin_view.py
+Kode ini sebagai tampilan menu utama / display bagi administrator.
+
+![image](https://user-images.githubusercontent.com/126738691/231103225-fb1cd0ed-3aad-4451-8a3c-251da80fa0d2.png)
+
+Kode ini berisi menu tambah pesawat, lihat pesawat, edit pesawat, hapus pesawat, dan sign out. Admin_view.py terhubung dengan main_view.py, flight_controller.py, dan auth_controller.py.
+
+![image](https://user-images.githubusercontent.com/126738691/231104731-ce9bb993-148d-4828-9ea8-bb27d675cbab.png)
+
+Setiap menu terhubung dengan beberapa kode program yang telah disebutkan diatas. Jika user memilih opsi 1, maka user akan menuju flight_controller.py yang berada
+didalam Controller (MVC), didalam menu ini, user dapat admin dapat menambah data pesawat.
+Selanjutnya adalah opsi ke 2, yaitu "Lihat pesawat", opsi ini juga akan mengarahkan user kedalam flight_controller.py didalam Controller (MVC).
+
+
+
+
+
 
 
