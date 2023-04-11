@@ -28,12 +28,16 @@ class AdminView:
                 opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
                 if opsi == '1':
+                    os.system('cls')
                     self.flight.addFlight()
                 elif opsi == '2':
+                    os.system('cls')
                     self.flight.display()
                 elif opsi == '3':
+                    os.system('cls')
                     self.flight.updateFlight()
                 elif opsi == '4':
+                    os.system('cls')
                     self.flight.deleteFlight()
                 elif opsi == '5':
                     self.auth.logout()

@@ -275,3 +275,43 @@ class LinkedList:
             print("Pesawat tidak ditemukan!\n")
 
 
+    def quick_sort(self, data):
+        if len(data) <= 1:
+            return data
+
+        pivot = data[0]
+        left = []
+        right = []
+
+        for i in range(1, len(data)):
+            if data[i]['airline'] < pivot['airline']:
+                left.append(data[i])
+            elif data[i]['airline'] > pivot['airline']:
+                right.append(data[i])
+            else:
+                if data[i]['price'] < pivot['price']:
+                    left.append(data[i])
+                else:
+                    right.append(data[i])
+
+        return self.quick_sort(left) + [pivot] + self.quick_sort(right)
+
+    def sort_flights(self):
+        data = []
+        for i in self.db.find():
+            data.append(i)
+
+        sorted_data = self.quick_sort(data)
+        
+        table = PrettyTable()
+        table.field_names = ['ID Flight', 'Pesawat', 'Asal', 'Tujuan', 'Waktu Keberangkatan', 'Waktu Kedatangan', 'Tanggal Keberangkatan',
+                 'Harga']
+
+        for flight in sorted_data:
+            table.add_row(
+                    [flight['idFlight'], flight['airline'], flight['origin'], flight['destination'], flight['departureTime'], flight['arrivalTime'],
+                     flight['dateTime'], flight['price']])
+
+        print(table)
+
+

@@ -33,17 +33,22 @@ class UserView:
                 opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
                 if opsi == '1':
+                    os.system('cls')
                     self.user.buyTicket()
                 elif opsi == '2':
+                    os.system('cls')
                     self.flight.display()
                 elif opsi == '3':
+                    os.system('cls')
                     self.user.checkHistory()
                 elif opsi == '4':
+                    os.system('cls')
                     self.user.addBalance()
                 elif opsi == '5':
+                    os.system('cls')
                     self.auth.profile()
                 elif opsi == '6':
-                    self.flight.sortFlight()
+                    self.flight.sort_flights()
                 elif opsi == '7':
                     self.auth.logout()
                     main.MenuUtama().run()
