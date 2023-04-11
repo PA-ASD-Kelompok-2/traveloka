@@ -231,8 +231,145 @@ masing-masing akun, jika akun yang di input adalah akun admin
 (Ditandai dengan role "admin") maka user akan secara otomatis login
 sebagai admin, dan akan dirujuk kedalam admin_view.py yang ada didalam folder View (MVC). 
 
+#### User_Controller.py
+
+##### Modul Import
+
+```python
+from Controller import flight_controller as fc
+from Controller import auth_controller as auth
+from Controller import email_controller as email
+from Model import database as db
+from datetime import datetime
+from prettytable import PrettyTable
+``` 
+
+"from controller import flight_controller as fc" adalah perintah untuk mengimport modul "flight_controller" yang merepresentasikan suatu class yang akan diimport dari file bernama "Controller" dan diberikan alias "fc". Hal ini juga berlaku hingga baris ke empat. 
+
+"from datetime import datetime" Dalam baris kode ini, modul datetime dari library bawaan Python diimpor ke dalam program. Modul ini berisi kelas datetime yang digunakan untuk memanipulasi tanggal dan waktu dalam Python.
+
+"from prettytable import PrettyTable" Baris kode tersebut merupakan contoh penggunaan statement import pada Python untuk mengimpor modul PrettyTable ke dalam sebuah program. 
+
+```python
+class Node:
+    def __init__(self, data=None, time=None):
+        self.data = data
+        self.time = time
+        self.next = None
+``` 
+
+Node didefinisikan sebagai suatu Implementasi dari struktur data Linked List untuk merepresentasikan sebuah node atau simpul dalam linked list.
+
+```python
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data, time):
+        new_node = Node(data, time) 
+        if not self.head:
+            self.head = new_node
+            return
+        curr_node = self.head
+        while curr_node.next:
+            curr_node = curr_node.next
+        curr_node.next = new_node
+
+    def display(self):
+        curr_node = self.head
+        while curr_node:
+            # print(curr_node.data)
+            print (f"{curr_node.time}: {curr_node.data}") 
+            curr_node = curr_node.next
 
 
+```python
+class UserController:
+    def __init__(self):
+        self.flight = fc.LinkedList()
+        self.db = db.dataFlight
+        self.history = LinkedList()
 
+    def buyTicket(self):
+        try:
+            user = db.dataAcc.find_one({"name": auth.User.user_session[0]['username']})
+            self.flight.display()
+            idFlight = str.upper(input("Masukkan ID Flight: "))
+            self.flight.search(idFlight)
+            if self.flight.search(idFlight):
+                for d in self.db.find({"idFlight": idFlight}):
+                    price = d['price']
+                    total = price
+                    if user['saldo'] >= total:
+                        db.dataAcc.update_one({"name": user["name"]}, {"$inc": {"saldo": -total}})
+                        print(f"Transaksi berhasil! Sisa saldo anda adalah: {user['saldo']}")
+                        email.send_email(user['email'], d['idFlight'], user['name'], d['origin'], d['destination'], d['airline'], d['dateTime'], d['departureTime'], d['arrivalTime'], d['price'])
+
+                        transaction = f"Beli tiket {total} untuk penerbangan {idFlight} dengan total harga {total}"
+                        self.history.append(transaction, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+                    else:
+                        print("Saldo tidak cukup!")
+            else:
+                print("Tiket tidak ditemukan")
+                
+        except KeyboardInterrupt:
+            print("Terjadi Kesalahan!")
+
+```
+
+Class Linked List adalah suatu implementasi salah satu fundamental struktur data yaitu Linked List. Linked List yang dipakai ialah singly linked list. Dalam class linked list terdapat dua method yaitu "append" yang berfungsi untuk menambahkan data melalui "node" atau simpul linked list, dan method "display" yang berfungsi untuk mencetak data yang ada didalam struktur data linked list. 
+
+Class User Controller adalah Class yang berfungsi sebagai pengontrol alur kerja user, dan menghubungkannya ke struktur data yang lain. didalamnya terdapat beberapa method yaitu __init__ yang merupakan penginisialisasian atribut - atribut yang dimiliki seperti self.flight yang merepresentasikan penerbangan yang di inisialisasi sebagai linkedlist, self.db sebagai database flight dari model, dan self.history untuk riwayat yang diinisialisasikan sebagai linked list.
+
+method buy ticket Kode ini mendefinisikan sebuah metode buyTicket(), yang memungkinkan pengguna untuk membeli tiket penerbangan. Proses pembelian tiket melibatkan pencarian tiket berdasarkan ID penerbangan, mengambil harga tiket dari database, memeriksa saldo pengguna, dan memperbarui saldo pengguna serta mengirim email konfirmasi pembelian kepada pengguna. Jika saldo pengguna mencukupi, transaksi akan berhasil dan informasi transaksi akan ditambahkan ke riwayat transaksi. Namun, jika saldo pengguna tidak mencukupi atau tiket tidak ditemukan, maka pesan kesalahan akan ditampilkan.
+
+```python
+def addBalance(self):
+        try:
+            user = db.dataAcc.find_one({"name": auth.User.user_session[0]['username']})
+            print("Saldo anda adalah: ", user['saldo'])
+
+            add = int(input("Masukkan jumlah saldo yang ingin ditambahkan: "))
+            if add < 0:
+                print("Jumlah saldo tidak boleh kurang dari 0")
+                return
+            if add > 10000000:
+                print("Jumlah saldo tidak boleh lebih dari 10.000.000")
+                return
+            else:
+                user['saldo'] += add
+                db.dataAcc.update_one({"name": user["name"]}, {"$set": {"saldo": user['saldo']}})
+                print(f"Saldo berhasil ditambahkan! Saldo sekarang adalah: {user['saldo']}")
+
+                transaction = f"Menambahkan saldo sebesar {add}"
+                self.history.append(transaction, datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+        except ValueError:
+            print("Saldo harus berupa angka!")
+        except KeyboardInterrupt:
+            print("Terjadi Kesalahan!")
+``` 
+
+Kode ini mendefinisikan sebuah metode addBalance(), yang memungkinkan pengguna untuk menambahkan saldo ke akun mereka. Saat metode ini dijalankan, program akan mencari pengguna di database berdasarkan username yang sedang login, kemudian menampilkan saldo saat ini dari akun pengguna tersebut. Selanjutnya, program akan meminta pengguna untuk memasukkan jumlah saldo yang ingin ditambahkan, dan melakukan validasi jumlah saldo apakah lebih dari 0 dan tidak melebihi 10.000.000.
+
+```python
+def checkHistory(self):
+        try:
+            print("Transaction History:")
+            table = PrettyTable()
+            table.field_names = ["Tanggal", "Transaksi"]
+            curr_node = self.history.head
+            while curr_node:
+                table.add_row([curr_node.time, curr_node.data])
+                curr_node = curr_node.next
+            
+            print(table)
+
+        except KeyboardInterrupt:
+            print("Terjadi Kesalahan!")
+``` 
+
+Kode ini mendefinisikan sebuah metode checkHistory(), yang digunakan untuk menampilkan riwayat transaksi pengguna. Metode ini akan mencetak tabel yang menampilkan tanggal dan detail transaksi dari setiap elemen dalam riwayat transaksi. Data transaksi akan diambil dari setiap simpul pada struktur data linked list yang menyimpan riwayat transaksi. Setiap simpul pada linked list memiliki atribut data yang menyimpan detail transaksi dan atribut time yang menyimpan tanggal dan waktu transaksi terjadi.
 
 
