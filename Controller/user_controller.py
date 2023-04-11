@@ -75,6 +75,9 @@ class UserController:
             if add < 0:
                 print("Jumlah saldo tidak boleh kurang dari 0")
                 return
+            if add > 10000000:
+                print("Jumlah saldo tidak boleh lebih dari 10.000.000")
+                return
             else:
                 user['saldo'] += add
                 db.dataAcc.update_one({"name": user["name"]}, {"$set": {"saldo": user['saldo']}})

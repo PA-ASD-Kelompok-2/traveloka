@@ -36,6 +36,7 @@ class AdminView:
                 elif opsi == '4':
                     self.flight.deleteFlight()
                 elif opsi == '5':
+                    self.auth.logout()
                     main.MenuUtama().run()
                 else:
                     print("Opsi tidak tersedia!")

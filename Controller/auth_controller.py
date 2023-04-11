@@ -31,7 +31,7 @@ class User:
                 print("Nama pengguna hanya boleh terdiri dari huruf, angka, dan underscore (_)!")
                 return False
             else:
-                password = str(pwinput.pwinput("Masukkan password: "))
+                password = str.lower(pwinput.pwinput("Masukkan password: "))
                 if not password:
                     print("Kata sandi tidak boleh kosong!")
                     return False
@@ -43,23 +43,37 @@ class User:
                     if saldo < 0:
                         print("Saldo tidak boleh kurang dari 0!")
                         return False
+                    if saldo > 10000000:
+                        print("Saldo tidak boleh lebih dari 10.000.000!")
+                        return False
                     else:
                         email = str(input("Masukkan email: "))
-                        db.dataAcc.insert_one(
-                            {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
-                            "role": "user"})
-                        print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
-                        print("> Username: ", name)
-                        print("> Password: ", password)
-                        print("> Saldo: ", saldo)
-                        print("> Email: ", email)
-                        print("---------------------------------------------------------")
-                        confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
-                        if confirm == '':
-                            print("\nRegistrasi Berhasil!")
-                            return True
-                        else:
-                            return True
+                        if not email:
+                            print("Email tidak boleh kosong!")
+                            return False
+                        elif re.search("[^A-Za-z0-9@.]", email):
+                            print("Email hanya boleh terdiri dari huruf, angka, dan karakter simbol seperti @ dan .!")
+                            return False
+                        elif re.search("[^@]", email):
+                            db.dataAcc.insert_one(
+                                {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
+                                "role": "user"})
+                            print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
+                            print("> Username: ", name)
+                            print("> Password: ", password)
+                            print("> Saldo: ", saldo)
+                            print("> Email: ", email)
+                            print("---------------------------------------------------------")
+                            confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
+                            if confirm == '':
+                                print("\nRegistrasi Berhasil!")
+                                return True
+                            else:
+                                return True
+                            
+        except TypeError:
+            print("Saldo harus berupa angka!")
+            return False
         except ValueError:
             print("Saldo harus berupa angka!")
             return False
@@ -74,7 +88,7 @@ class User:
         while count >= 0:
             count -= 1
             name = str.capitalize(input("> Masukkan username anda: "))
-            password = str(pwinput.pwinput("> Masukkan password anda: "))
+            password = str.lower(pwinput.pwinput("> Masukkan password anda: "))
             user = db.dataAcc.find_one({"name": name, "password": password})
             if user and user["name"] == name and user["password"] == password:
                 if user:
@@ -105,10 +119,14 @@ class User:
         name = str.capitalize(input("> Masukkan username: "))
         user = db.dataAcc.find_one({"name": name})
         if user:
-            new_password = pwinput.pwinput("> Masukkan password baru: ")
-            db.dataAcc.update_one({"name": name}, {"$set": {"password": new_password}})
-            print("Password berhasil diubah!")
-            return True
+            new_password = str.lower(pwinput.pwinput("> Masukkan password baru: "))
+            if not new_password:
+                print("Kata sandi tidak boleh kosong!")
+                return False
+            else:
+                db.dataAcc.update_one({"name": name}, {"$set": {"password": new_password}})
+                print("Password berhasil diubah!")
+                return True
         else:
             print("Username tidak ditemukan!")
             return False
@@ -127,7 +145,6 @@ class User:
             print("Nama: ", user["name"])
             print("Saldo: ", user["saldo"])
             print("Email: ", user["email"])
-            print("Privilege: ", user["privilege"])
             print("---------------------------------------------------------")
             confirm = input("Tekan [ENTER] jika ingin kembali ke menu utama!")
             if confirm == '':

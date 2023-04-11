@@ -43,8 +43,9 @@ class UserView:
                 elif opsi == '5':
                     self.auth.profile()
                 elif opsi == '6':
-                    self.flight.sort()
+                    self.flight.sortFlight()
                 elif opsi == '7':
+                    self.auth.logout()
                     main.MenuUtama().run()
                 else:
                     print("Opsi tidak tersedia!!")
