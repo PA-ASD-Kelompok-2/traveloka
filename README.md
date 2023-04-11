@@ -29,6 +29,26 @@ pip install prettytable
 ```bash
 pip install python-time
 ```
+
+```bash
+pip install sib_api_v3_sdk
+```
+
+```bash
+pip install pwinput
+```
+
+```bash
+pip install python-dotenv
+```
+
+```bash
+pip install random
+```
+
+```bash
+pip install DateTime
+```
 #### Struktur Program
 
 Konsep yang digunakan adalah MVC (Model, view, Controller). MVC adalah arsitektur pengelolaan program menjadi tiga bagian yaitu Model, View, Controller.
@@ -168,18 +188,51 @@ yang sama, yaitu modul akan merujuk ke flight_controller.py. Lalu opsi ke-4, mak
 #### Controller - auth_controller.py
 Modul ini sebagai kontrol autentikasi user.
 
-![image](https://user-images.githubusercontent.com/126738691/231129705-9685bb04-6559-4d7d-acc9-063482206b95.png)
-
+```python
+from Model import database as db
+from View import admin_view
+from View import user_view
+import main
+import pwinput
+import os
+import re
+``` 
 Source code diatas akan melakuan import database.py dari dalam folder Model, lalu admin_view.py dan user_view.py dari dalam folder View (MVC).
 Selanjutnya adalah import main.......###.
+```python
+class User:
 
-![image](https://user-images.githubusercontent.com/126738691/231153778-14300516-94e7-49b5-9cb3-a70743461067.png)
+    user_session = []
+``` 
 
 Didalam class User, terdapat list yaitu user_session, list ini berfungsi sebagai tempat penyimpanan sementara.
 
 ##### Fungsi Register
-![image](https://user-images.githubusercontent.com/126738691/231154259-eb8c7fc0-df52-41d7-90b1-7bf1d41886a1.png)
 
+```python
+fdef register(self):
+        try:
+            os.system('cls')
+            print("----------------------- REGISTRASI ----------------------")
+            name = str.capitalize(input("Masukkan username: "))
+            if db.dataAcc.find_one({"name": name}):
+                print("Username sudah digunakan!")
+                return False
+            if not name:
+                print("Nama pengguna tidak boleh kosong!")
+                return False
+            elif re.search("[^A-Za-z0-9_]", name):
+                print("Nama pengguna hanya boleh terdiri dari huruf, angka, dan underscore (_)!")
+                return False
+            else:
+                password = str.lower(pwinput.pwinput("Masukkan password: "))
+                if not password:
+                    print("Kata sandi tidak boleh kosong!")
+                    return False
+                elif re.search("[^A-Za-z0-9!@#$%^&*()_+-=]", password):
+                    print("Kata sandi hanya boleh terdiri dari huruf, angka, dan karakter simbol seperti !, @, #, $, %, ^, &, *, (, ), _, +, -, =!")
+                    return False
+``` 
 Fungsi register untuk membuat sebuah akun baru bagi user bisa / pengguna, pada source code tersebut, user akan diminta untuk memasukkan 
 username, yang dimana dilambangkan oleh variabel "name", username
 sendiri akan otomatis menjadi huruf kapital. 
@@ -190,14 +243,43 @@ akan return False dan melakukan print lalu melakukan perulangan.
 Lalu "if not name" yaitu jika input dibiarkan kosong (Null) maka akan return False, dan "re.search" yaitu modul untuk melakukan cek apakah
 input username terdapat simbol-simbol "([^A-Za-z0-9!@#$%^&*()_+-=])", 
 jika ada, maka program akan return False dan melakukan print lalu melakukan perulangan.
-
-![image](https://user-images.githubusercontent.com/126738691/231160948-0306f7ea-6be1-4b39-9e61-3800b4799264.png)
+```python
+else:
+    password = str.lower(pwinput.pwinput("Masukkan password: "))
+    if not password:
+        print("Kata sandi tidak boleh kosong!")
+        return False
+    elif re.search("[^A-Za-z0-9!@#$%^&*()_+-=]", password):
+        print("Kata sandi hanya boleh terdiri dari huruf, angka, dan karakter simbol seperti !, @, #, $, %, ^, &, *, (, ), _, +, -, =!")
+        return False
+``` 
 
 Setelah seluruh kriteria pada username terpenuhi, maka user akan diminta untuk
 melakukan input password (Input ini menggunakan modul pwinput) sesuai dengan kriteria sebelumnya, yaitu tidak boleh kosong, dan hanya menggunakan simbol -
 simbol yang telah ditentukan.
 
-![image](https://user-images.githubusercontent.com/126738691/231159419-e7b28215-7cf3-46c3-a949-02265b456b0a.png)
+```python
+else:
+    saldo = int(input("Masukkan saldo awal: "))
+    if saldo < 0:
+        print("Saldo tidak boleh kurang dari 0!")
+        return False
+    if saldo > 10000000:
+        print("Saldo tidak boleh lebih dari 10.000.000!")
+        return False
+    else:
+        email = str(input("Masukkan email: "))
+        if not email:
+            print("Email tidak boleh kosong!")
+            return False
+        elif re.search("[^A-Za-z0-9@.]", email):
+            print("Email hanya boleh terdiri dari huruf, angka, dan karakter simbol seperti @ dan .!")
+            return False
+        elif re.search("[^@]", email):
+            db.dataAcc.insert_one(
+                {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
+                "role": "user"})
+``` 
 
 Selanjutnya jika user telah memenuhi semua kriteria (username dan password), maka program akan berlanjut. Pada source kode diatas,
 user akan diminta untuk mengisi saldo, jika saldo yang diinput adalah 0 / kosong, maka akan return False. Akan 
@@ -209,13 +291,56 @@ berlanjut ke tahap berikutnya, yaitu melakukan pengisian
 email. Sama halnya dengan username, email juga tidak boleh kosong, serta hanya menggunakan simbol-simbol berdasarkan
 ketentuan. 
 
-![image](https://user-images.githubusercontent.com/126738691/231162777-d7321e0d-36d9-42b9-96b9-8ba6d1f914ea.png)
+```python
+db.dataAcc.insert_one(
+    {"name": name, "password": password, "saldo": saldo, "email": email, "privilege": "Reguler",
+    "role": "user"})
+print("\n--------------- DATA TELAH DIKONFRIMASI ---------------")
+print("> Username: ", name)
+print("> Password: ", password)
+print("> Saldo: ", saldo)
+print("> Email: ", email)
+print("---------------------------------------------------------")
+confirm = input("Tekan [ENTER] jika sesuai dengan anda input!")
+if confirm == '':
+    print("\nRegistrasi Berhasil!")
+    return True
+else:
+    return True
+``` 
 
 Jika seluruh kriteria diatas terpenuhi (username, password, email, dan saldo) maka program akan melakukan "insert" data kedalam dataAcc di
 dalam MongoClient. User sekarang dapat menggunakan akun yang telah dibuatnya.
 
 ##### Fungsi Login 
-![image](https://user-images.githubusercontent.com/126738691/231163372-dc02e0ff-3ac6-4d02-b8f4-4a7d33cc8f80.png)
+
+```python
+def login(self):
+        os.system('cls')
+        print("----------------------- LOGIN ---------------------------")
+        count = 3
+        while count >= 0:
+            count -= 1
+            name = str.capitalize(input("> Masukkan username anda: "))
+            password = str.lower(pwinput.pwinput("> Masukkan password anda: "))
+            user = db.dataAcc.find_one({"name": name, "password": password})
+            if user and user["name"] == name and user["password"] == password:
+                if user:
+                    if user.get("role") == "admin":
+                        print("Login berhasil!")
+                        self.logged_in = True
+                        self.username = user["name"]
+                        admin_view.AdminView().menu_admin()
+                        return True
+                    elif user.get("role") == "user":
+                        print("Login berhasil!")
+                        self.logged_in = True
+                        self.username = user["name"]
+                        session_data = {"username": self.username}
+                        User.user_session.append(session_data)
+                        user_view.UserView().menu_user()
+                        return True
+``` 
 
 Kode "Count = 3" berfungsi sebagai jumlah penghitung jika user
 melakukan salah input, baik itu username maupun password, dan "While
@@ -233,7 +358,6 @@ sebagai admin, dan akan dirujuk kedalam admin_view.py yang ada didalam folder Vi
 
 #### User_Controller.py
 
-##### Modul Import
 
 ```python
 from Controller import flight_controller as fc
@@ -372,4 +496,54 @@ def checkHistory(self):
 
 Kode ini mendefinisikan sebuah metode checkHistory(), yang digunakan untuk menampilkan riwayat transaksi pengguna. Metode ini akan mencetak tabel yang menampilkan tanggal dan detail transaksi dari setiap elemen dalam riwayat transaksi. Data transaksi akan diambil dari setiap simpul pada struktur data linked list yang menyimpan riwayat transaksi. Setiap simpul pada linked list memiliki atribut data yang menyimpan detail transaksi dan atribut time yang menyimpan tanggal dan waktu transaksi terjadi.
 
+#### Controller - email_controller.py
+```python
+from __future__ import print_function
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
+from pprint import pprint
+from dotenv import load_dotenv
+import random
+import os
+
+load_dotenv()
+
+configuration = sib_api_v3_sdk.Configuration()
+configuration.api_key['api-key'] = os.getenv('SENDINBLUE_API_KEY')
+```
+
+Kode tersebut mendefinisikan sebuah fungsi send_email yang bertujuan untuk mengirim email transaksional melalui API Sendinblue. Fungsi ini memerlukan beberapa parameter, yaitu email, id_flight, name, asal, tujuan, pesawat, tanggal, waktu_keberangkatan, waktu_kedatangan, dan harga. Fungsi send_email menggunakan klien API Sendinblue untuk membuat objek email dengan menggunakan parameter yang diberikan, seperti to, params, dan template_id. Objek email kemudian dikirim menggunakan metode send_transac_email dari klien API Sendinblue. Jika terjadi kesalahan saat mengirim email, maka fungsi akan menampilkan pesan kesalahan menggunakan pernyataan print. Jika tidak ada kesalahan, maka hasil respons dari API Sendinblue akan dicetak menggunakan fungsi pprint.
+
+```python
+def send_email(email, id_flight, name, asal, tujuan, pesawat, tanggal, waktu_keberangkatan, waktu_kedatangan, harga):
+    api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
+    receipt = str(random.randint(100000, 999999))
+    ticket_code = str(random.randint(100000, 999999))
+    to = [{"email": email, "name": name}]
+    params = {
+        "RECEIPT":receipt,
+        "ID_FLIGHT": id_flight,
+        "NAMA": name,
+        "ASAL": asal,
+        "TUJUAN": tujuan,
+        "NAMA_PESAWAT": pesawat,
+        "TANGGAL": tanggal,
+        "WAKTU_KEBERANGKATAN": waktu_keberangkatan,
+        "WAKTU_KEDATANGAN": waktu_kedatangan,
+        "KODE_TIKET": ticket_code,
+        "HARGA": harga
+    }
+    send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(to=to, params=params, template_id=1)
+
+    try:
+        api_response = api_instance.send_transac_email(send_smtp_email)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling SMTPApi->send_transac_email: %s\n" % e)
+``` 
+
+Fungsi send_email menggunakan klien API Sendinblue untuk membuat objek email dengan menggunakan parameter yang diberikan, seperti to, params, dan template_id. Objek email kemudian dikirim menggunakan metode send_transac_email dari klien API Sendinblue.
+
+
+#### Controller - flight_controller.py
 
