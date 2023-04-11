@@ -43,7 +43,22 @@ dan mengirimkan hasil pemrosesan tersebut ke View untuk ditampilkan.
 #### Model - database.py
 Module database.py merupakan kepala dari seluruh program Traveloka. 
 
-![image](https://user-images.githubusercontent.com/126738691/231100003-1a25ce9f-03d9-4ac6-88a0-8eaf58374d48.png) 
+```python
+from pymongo import MongoClient
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+cluster = MongoClient(os.getenv("MONGO_URI"))
+
+db = cluster["traveloka"]
+
+dataAcc = db["account"]
+dataFlight = db["flight"]
+dataHotel = db["hotel"]
+dataTransaction = db["transaction"]
+``` 
 
 Didalam module ini, kita menggunakan module Pymongo sebagai alat penghubung antara Python dengan MongoDB (MongoClient), kemudian kita melakukan import dotenv yang berfungsi sebagai environtment bagi .env. 
 Kemudian load_dotenv() berfungsi untuk menarik key - value dari cluster MongoClient (getenv("MONGO_URI")) dan menyimpannya didalam dotenv. 
@@ -52,31 +67,103 @@ Lalu db = cluster["traveloka"] berfungsi untuk menghubungkan program Database.py
 #### View - main_view.py
 Module ini merupakan tampilan menu awal program Traveloka.
 
-![image](https://user-images.githubusercontent.com/126738691/231107335-02c9fa7a-4d00-4a63-8ebc-0364f816aa85.png)
-
+```python
+from Controller import auth_controller
+import os
+```
 Dalam source code tersebut, kita akan memanggil folder CONTROLLER (MVC) yang berisi module Auth_controller.py. Module auth_controller.py sendiri berfungsi sebagai 
 kontrol (Controller) autentikasi bagi user, baik itu user biasa maupun user admin seperti login dan register, dan lupa password.
 
-![image](https://user-images.githubusercontent.com/126738691/231109813-e90dc7fc-c9c2-42d2-9fdd-8c76f5886e41.png)
+```python
+class MenuUtama:
+    def __init__(self):
+        self.auth = auth_controller.User()
+
+    def run(self):
+        try:
+            os.system('cls')
+            while True:
+                print('=================================')
+                print('|            Welcome            |')
+                print('|           Traveloka           |')
+                print('=================================')
+                print('|>>>>> Silahkan pilih opsi <<<<<|')
+                print('|                               |')
+                print('|   1. Registrasi Akun          |')
+                print('|   2. Login Akun               |')
+                print('|   3. Lupa Password            |')
+                print('|   4. Keluar                   |')
+                print('|                               |')
+                print('=================================')
+
+                opsi = str(input('Tentukan opsi anda (1/2/3/4): '))
+
+                if opsi == '1':
+                    self.auth.register()
+                elif opsi == '2':
+                    self.auth.login()
+                elif opsi == '3':
+                    self.auth.forgot_password()
+                elif opsi == '4':
+                    print('Terima kasih telah menggunakan layanan kami!')
+```
 
 Module ini sendiri terdiri dari beberapa menu yaitu registrasi, login, lupa password, dan keluar. Jika user memilih opsi ke-1 yaitu registrasi aku, maka module 
 akan merujuk ke module auth_controller.py yaitu pada bagian register, yang dimana, fungsi register tersebut akan merujuk kedalam folder MODEL (MVC) yang berisi
 database.py, yang telah terhubung kedalam MongoClient. Jika user memilih opsi ke-2, yaitu login akun, maka cara kerjanya sama, yaitu module akan merujuk ke module
 auth_controller.py dimana terdapat fungsi login. Opsi ke-3 pun sama, yaitu merujuk kedalam auth_controller.py. Jika user memilih opsi keluar, maka program akan stop.
 
-![image](https://user-images.githubusercontent.com/126738691/231112187-eb29b891-4740-4302-addb-7fe89331660f.png)
-
+```python
+ except KeyboardInterrupt:
+            print('Terjadi kesalahan!')
+            exit()
+```
 Source code diatas berfungsi sebagai penanganan / penyelesain jika terjadi error KeyboardInterrupt.
 
 #### View - admin_view.py
 Module ini sebagai tampilan menu utama / display bagi administrator.
 
-![image](https://user-images.githubusercontent.com/126738691/231103225-fb1cd0ed-3aad-4451-8a3c-251da80fa0d2.png)
-
+```python
+from View import main_view as main
+from Controller import flight_controller as fc
+from Controller import auth_controller as auth
+import os
+```
 Module ini berisi menu tambah pesawat, lihat pesawat, edit pesawat, hapus pesawat, dan sign out. Admin_view.py terhubung dengan main_view.py, flight_controller.py, dan auth_controller.py.
 
-![image](https://user-images.githubusercontent.com/126738691/231104731-ce9bb993-148d-4828-9ea8-bb27d675cbab.png)
+```python
+def menu_admin(self):
+        try:
+            os.system('cls')
+            while True:
+                print("==================================")
+                print("|            M E N U             |")
+                print("==================================")
+                print("|-----> Menu yang tersedia <-----|")
+                print("|                                |")
+                print("|    1. Tambah Pesawat           |")
+                print("|    2. Lihat Pesawat            |")
+                print("|    3. Edit Pesawat             |")
+                print("|    4. Hapus Pesawat            |")
+                print("|    5. Sign Out                 |")
+                print("|                                |")
+                print("==================================")
+                opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
+                if opsi == '1':
+                    self.flight.addFlight()
+                elif opsi == '2':
+                    self.flight.display()
+                elif opsi == '3':
+                    self.flight.updateFlight()
+                elif opsi == '4':
+                    self.flight.deleteFlight()
+                elif opsi == '5':
+                    self.auth.logout()
+                    main.MenuUtama().run()
+                else:
+                    print("Opsi tidak tersedia!")
+```
 Setiap menu terhubung dengan beberapa kode program yang telah disebutkan diatas. Jika user memilih opsi ke-1, maka user akan menuju flight_controller.py yang berada
 didalam Controller (MVC), didalam fungsi ini, user dapat admin dapat menambah data pesawat, dan fungsi ini sendiri terhubung dengan module database.py. Selanjutnya
 adalah opsi ke-2, yaitu "Lihat pesawat", opsi ini juga akan mengarahkan user kedalam flight_controller.py didalam Controller (MVC). Opsi ke-3 juga memiliki cara kerja
