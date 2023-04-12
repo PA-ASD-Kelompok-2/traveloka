@@ -304,6 +304,7 @@ class LinkedList:
         sorted_data = self.quick_sort(data)
         
         table = PrettyTable()
+        table.title = "Data sortir berdasarkan nama pesawat"
         table.field_names = ['ID Flight', 'Pesawat', 'Asal', 'Tujuan', 'Waktu Keberangkatan', 'Waktu Kedatangan', 'Tanggal Keberangkatan',
                  'Harga']
 
