@@ -145,6 +145,101 @@ auth_controller.py dimana terdapat fungsi login. Opsi ke-3 pun sama, yaitu meruj
 ```
 Source code diatas berfungsi sebagai penanganan / penyelesain jika terjadi error KeyboardInterrupt.
 
+### View - user_view.py
+
+#### Import Modul
+
+```python
+from Controller import flight_controller as fc
+from Controller import auth_controller as auth
+from Controller import user_controller as uc
+from View import main_view as main
+import os
+```
+"from Controller import flight_controller as fc": Ini mengimport modul flight_controller dari paket Controller dan memberikannya alias fc. Setelah diimport, modul ini bisa dipanggil menggunakan alias fc.
+
+"from Controller import auth_controller as auth": Ini mengimport modul auth_controller dari paket Controller dan memberikannya alias auth. Setelah diimport, modul ini bisa dipanggil menggunakan alias auth.
+
+"from Controller import user_controller as uc": Ini mengimport modul user_controller dari paket Controller dan memberikannya alias uc. Setelah diimport, modul ini bisa dipanggil menggunakan alias uc.
+
+"from View import main_view as main": Ini mengimport modul main_view dari paket View dan memberikannya alias main. Setelah diimport, modul ini bisa dipanggil menggunakan alias main.
+
+"import os": Ini mengimport modul os yang merupakan modul bawaan Python. Modul ini berisi fungsi-fungsi untuk melakukan interaksi dengan sistem operasi yang digunakan
+
+```python
+class UserView:
+
+    def __init__(self):
+        self.flight = fc.LinkedList()
+        self.auth = auth.User()
+        self.user = uc.UserController()
+
+    def menu_user(self):
+        try:
+            os.system('cls')
+            while True:
+                print("==================================")
+                print("|            M E N U             |")
+                print("==================================")
+                print("|-----> Menu yang tersedia <-----|")
+                print("|                                |")
+                print("|    1. Cari Tiket Pesawat       |")
+                print("|    2. Lihat Tiket Pesawat      |")
+                print("|    3. Riwayat Pembelian        |")
+                print("|    4. Isi Saldo                |")
+                print("|    5. Cek Profil               |")
+                print("|    6. Urutkan Data Pesawat     |")
+                print("|    7. Sign Out                 |")
+                print("|                                |")
+                print("==================================")
+                opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
+
+                if opsi == '1':
+                    os.system('cls')
+                    self.user.buyTicket()
+                elif opsi == '2':
+                    os.system('cls')
+                    self.flight.display()
+                elif opsi == '3':
+                    os.system('cls')
+                    self.user.checkHistory()
+                elif opsi == '4':
+                    os.system('cls')
+                    self.user.addBalance()
+                elif opsi == '5':
+                    os.system('cls')
+                    self.auth.profile()
+                elif opsi == '6':
+                    self.flight.sort_flights()
+                elif opsi == '7':
+                    self.auth.logout()
+                    main.MenuUtama().run()
+                else:
+                    print("Opsi tidak tersedia!!")
+
+        except KeyboardInterrupt:
+            print("\nTerjadi Kesalahan!")
+            exit()
+```
+Class userview adalah pendefinisian sebuah class yang bernama userview. Class userview memiliki fungsi sebagai pusat tampilan menu utama bagi user yang dimana terdapat beberapa method seperti init dan menu_user. 
+
+#### Inisiasi Atribut Class
+
+Method __init__ pada kelas ini digunakan untuk menginisialisasi tiga atribut yaitu flight, auth, dan user. Atribut flight adalah sebuah objek dari kelas LinkedList yang didefinisikan dalam modul flight_controller dan diimport sebelumnya menggunakan alias fc, sedangkan atribut auth dan user adalah objek dari kelas User dan UserController masing-masing. 
+
+#### Fungsi Menu_User
+
+kelas UserView juga memiliki method menu_user yang digunakan untuk menampilkan tampilan menu utama aplikasi dan menerima input dari pengguna. Pada method menu_user, terdapat sebuah loop while yang akan berjalan terus menerus hingga pengguna memilih opsi keluar dari aplikasi. Loop ini akan menampilkan tampilan menu utama aplikasi dan meminta pengguna untuk memilih opsi dengan memasukkan nomor opsi yang diinginkan.
+
+#### Contoh Pemilihan Opsi Menu
+
+Misalnya, jika pengguna memilih opsi untuk mencari tiket pesawat, program akan memanggil method buyTicket dari objek user untuk memulai proses pembelian tiket. Jika pengguna memilih opsi untuk melihat riwayat pembelian, program akan memanggil method checkHistory dari objek user untuk menampilkan riwayat pembelian yang dilakukan oleh pengguna tersebut.
+
+#### Opsi Logout
+
+Jika pengguna memilih opsi untuk keluar dari aplikasi, program akan memanggil method logout dari objek auth untuk logout dari aplikasi dan kembali ke menu utama dengan memanggil method run dari kelas MenuUtama yang didefinisikan dalam modul main_view.
+
+
 ### View - admin_view.py
 Modul ini sebagai tampilan menu utama / display bagi administrator.
 
@@ -191,7 +286,7 @@ adalah opsi ke-2, yaitu "Lihat pesawat", opsi ini juga akan mengarahkan user ked
 yang sama, yaitu modul akan merujuk ke flight_controller.py. Lalu opsi ke-4, maka modul akan merujuk kedalam Auth_controller.py didalam folder Controller (MVC).
 
 -------------------
-#### Controller - auth_controller.py
+### Controller - auth_controller.py
 Modul ini sebagai kontrol autentikasi user.
 
 ```python
@@ -213,7 +308,7 @@ class User:
 
 Didalam class User, terdapat list yaitu user_session, list ini berfungsi sebagai tempat penyimpanan sementara.
 
-##### Fungsi Register
+#### Fungsi Register
 
 ```python
 def register(self):
@@ -318,7 +413,7 @@ else:
 Jika seluruh kriteria diatas terpenuhi (username, password, email, dan saldo) maka program akan melakukan "insert" data kedalam dataAcc di
 dalam MongoDB. User sekarang dapat menggunakan akun yang telah dibuatnya.
 
-##### Fungsi Login 
+#### Fungsi Login 
 
 ```python
 def login(self):
@@ -363,7 +458,7 @@ masing-masing akun, jika akun yang di input adalah akun admin
 sebagai admin, dan akan dirujuk kedalam admin_view.py yang ada didalam folder View (MVC). 
 
 -------------------
-### User_Controller.py
+### Controller - User_Controller.py
 Modul ini berfungsi sebagai kontrol pengguna / user.
 
 
@@ -555,7 +650,7 @@ def send_email(email, id_flight, name, asal, tujuan, pesawat, tanggal, waktu_keb
 Fungsi send_email menggunakan klien API Sendinblue untuk membuat objek email dengan menggunakan parameter yang diberikan, seperti to, params, dan template_id. Objek email kemudian dikirim menggunakan metode send_transac_email dari klien API Sendinblue.
 
 -------------------
-#### Controller - flight_controller.py
+### Controller - flight_controller.py
 Modul berfungsi sebagai kontrol sistem tiket penerbangan traveloka.
 
 ```python
@@ -569,7 +664,7 @@ Model, dimana, database.py memiliki informasi-informasi
 mengenai penerbangan seperti tiket, jadwal, harga dan lain
 sebagainya.
 
-##### Fungsi Append
+#### Fungsi Append
 ```python
 def append(self, data):
         new_node = Node(data)
@@ -583,7 +678,7 @@ def append(self, data):
 ```
 Pada source code diatas, kita menggunakan fungsi append.....
 
-##### Fungsi Display
+#### Fungsi Display
 ```python
  def display(self):
         data = []
@@ -606,7 +701,7 @@ Source code diatas berfungsi untuk menampilkan tiket yang dipilih oleh
 user. Variabel "data" adalah sebuah list yang berfungsi sebagai 
 penyimpanan sementara, dimana saat user mencari
 
-##### Fungsi Search
+#### Fungsi Search
 ```python
 def search(self, key):
         data = []
@@ -667,7 +762,7 @@ telah di append sebelumnya.
 Namun jika, key (idFlight) tidak sesuai dengan isi dari
 variabel "data", maka program akan "return None".
 
-##### Fungsi AddFlight
+#### Fungsi AddFlight
 ```python
  def addFlight(self):
         try:
@@ -682,7 +777,7 @@ variabel "data", maka program akan "return None".
 Source code diatas berkerja untuk menambah data baru kedalam
 MongoDB, kode "try" berfungsi sebagai looping.
 
-##### Fungsi idFlight
+#### Fungsi idFlight
 ```python
 def idFlight():
                 if "garuda indonesia" in airline.lower():
@@ -740,7 +835,7 @@ new_flight, maka node akan berlanjut bagian selanjutnya.
 Setelah menambah kedalam node baru, kode kemudian menambah
 data baru kedalam database MongoDB.
 
-##### Fungsi deleteFlight
+#### Fungsi deleteFlight
 ```python   
 def deleteFlight(self):
         try:
@@ -763,7 +858,7 @@ untuk menghapus data pesawat adalah idFlight (id unik pesawat).
 Dimana pada fungsi ini, kita juga akan menggunakan fungsi
 jump search. 
 
-##### Fungsi updateFlight
+#### Fungsi updateFlight
 ```python
  def updateFlight(self):
         print("Edit Pesawat\n")
@@ -810,7 +905,7 @@ kode "self.db.update_one({"idFlight": idFlight}, {"$set": {"origin": newData}})"
 "$set" akan berkerja dan melakukan set / mengganti origin dengan key / origin baru dari
 newData (input user).
 
-##### Fungsi quick_sort
+#### Fungsi quick_sort
 ```python
  def quick_sort(self, data):
         if len(data) <= 1:
