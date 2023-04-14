@@ -1,13 +1,14 @@
 # Dokumentasi Proyek Akhir Algoritma dan Struktur Data
 ## "Implementasi Algoritma dan Struktur Data pada Big Project Traveloka"
-
+-------------------
 ### Deskripsi Program
 
 Traveloka adalah program pelayanan kebutuhan perjalanan dan liburan yang telah dikenal di seluruh asia. Traveloka adalah program dengan sistem pelayanan pada pemesanan
 tiket pesawat, hotel, dan lain lain. Alasan kami memilih Traveloka karena cocok untuk di implementasikan dengan struktur data dan algoritma yang sedang dipelajari saat ini,
 yaitu Linked list, Search, dan Sort. 
 
-#### Implementasi Modul
+-------------------
+## Implementasi Modul
 
 Adapun Modul yang digunakan dalam Project ini adalah :
 
@@ -15,8 +16,8 @@ Adapun Modul yang digunakan dalam Project ini adalah :
 * Clear Screen (cls): yang merupakan modul untuk memberikan efek clear pada screen terminal.
 * Time: fungsi yang digunakan ialah sleep() yang berfungsi untuk menghentikan program untuk sementara dalam waktu tertentu, diatur dalam satuan detik.
 * PrettyTable: yaitu modul yang digunakan untuk memanipulasi visual data yang akan ditampilkan dalam view.
-
-#### Instalasi modul
+-------------------
+## Instalasi modul
 
 ```bash
 pip install pymongo
@@ -49,7 +50,8 @@ pip install random
 ```bash
 pip install DateTime
 ```
-#### Struktur Program
+-------------------
+## Struktur Program
 
 Konsep yang digunakan adalah MVC (Model, view, Controller). MVC adalah arsitektur pengelolaan program menjadi tiga bagian yaitu Model, View, Controller.
 
@@ -58,9 +60,11 @@ Konsep yang digunakan adalah MVC (Model, view, Controller). MVC adalah arsitektu
 * Controller Merupakan komponen yang menghubungkan Model dan View. Controller bertanggung jawab untuk menerima input dari pengguna, 
 memproses input tersebut dengan menggunakan Model, 
 dan mengirimkan hasil pemrosesan tersebut ke View untuk ditampilkan.
+-------------------
+## Penjelasan Program 
+-------------------
+### Model - database.py
 
-### Penjelasan Program 
-#### Model - database.py
 Modul database.py merupakan kepala dari seluruh program Traveloka. 
 
 ```python
@@ -86,7 +90,8 @@ Kemudian load_dotenv() berfungsi untuk menarik key - value dari cluster MongoCli
 
 Lalu db = cluster["traveloka"] berfungsi untuk menghubungkan program Database.py dengan MongoClient yang terdapat cluster "Traveloka" didalamnya, lalu baris-baris selanjutnya berfungsi sebagai variabel pemanggil setiap bagian data program traveloka, yaitu akun, tiket pesawat, tiket hotel, dan transaksi.
 
-#### View - main_view.py
+-------------------
+### View - main_view.py
 Modul ini merupakan tampilan menu awal program Traveloka.
 
 ![image](https://user-images.githubusercontent.com/126738691/231107335-02c9fa7a-4d00-4a63-8ebc-0364f816aa85.png)
@@ -130,7 +135,7 @@ class MenuUtama:
 
 Modul ini sendiri terdiri dari beberapa menu yaitu registrasi, login, lupa password, dan keluar. Jika user memilih opsi ke-1 yaitu registrasi aku, maka modul 
 akan merujuk ke modul auth_controller.py yaitu pada bagian register, yang dimana, fungsi register tersebut akan merujuk kedalam folder MODEL (MVC) yang berisi
-database.py, yang telah terhubung kedalam MongoClient. Jika user memilih opsi ke-2, yaitu login akun, maka cara kerjanya sama, yaitu modul akan merujuk ke modul
+database.py, yang telah terhubung kedalam MongoDB. Jika user memilih opsi ke-2, yaitu login akun, maka cara kerjanya sama, yaitu modul akan merujuk ke modul
 auth_controller.py dimana terdapat fungsi login. Opsi ke-3 pun sama, yaitu merujuk kedalam auth_controller.py. Jika user memilih opsi keluar, maka program akan stop.
 
 ```python
@@ -140,7 +145,7 @@ auth_controller.py dimana terdapat fungsi login. Opsi ke-3 pun sama, yaitu meruj
 ```
 Source code diatas berfungsi sebagai penanganan / penyelesain jika terjadi error KeyboardInterrupt.
 
-#### View - admin_view.py
+### View - admin_view.py
 Modul ini sebagai tampilan menu utama / display bagi administrator.
 
 ![image](https://user-images.githubusercontent.com/126738691/231103225-fb1cd0ed-3aad-4451-8a3c-251da80fa0d2.png)
@@ -185,6 +190,7 @@ didalam Controller (MVC), didalam fungsi ini, user dapat admin dapat menambah da
 adalah opsi ke-2, yaitu "Lihat pesawat", opsi ini juga akan mengarahkan user kedalam flight_controller.py didalam Controller (MVC). Opsi ke-3 juga memiliki cara kerja
 yang sama, yaitu modul akan merujuk ke flight_controller.py. Lalu opsi ke-4, maka modul akan merujuk kedalam Auth_controller.py didalam folder Controller (MVC).
 
+-------------------
 #### Controller - auth_controller.py
 Modul ini sebagai kontrol autentikasi user.
 
@@ -210,7 +216,7 @@ Didalam class User, terdapat list yaitu user_session, list ini berfungsi sebagai
 ##### Fungsi Register
 
 ```python
-fdef register(self):
+def register(self):
         try:
             os.system('cls')
             print("----------------------- REGISTRASI ----------------------")
@@ -237,7 +243,7 @@ Fungsi register untuk membuat sebuah akun baru bagi user bisa / pengguna, pada s
 username, yang dimana dilambangkan oleh variabel "name", username
 sendiri akan otomatis menjadi huruf kapital. 
 
-Kode "if db.dataAcc.find({"name": name})" yaitu jika username telah ada didalam db.dataAcc (MongoClient) dengan cara mencari "name" (Key), maka
+Kode "if db.dataAcc.find({"name": name})" yaitu jika username telah ada didalam db.dataAcc (MongoDB) dengan cara mencari "name" (Key), maka
 akan return False dan melakukan print lalu melakukan perulangan. 
 
 Lalu "if not name" yaitu jika input dibiarkan kosong (Null) maka akan return False, dan "re.search" yaitu modul untuk melakukan cek apakah
@@ -310,7 +316,7 @@ else:
 ``` 
 
 Jika seluruh kriteria diatas terpenuhi (username, password, email, dan saldo) maka program akan melakukan "insert" data kedalam dataAcc di
-dalam MongoClient. User sekarang dapat menggunakan akun yang telah dibuatnya.
+dalam MongoDB. User sekarang dapat menggunakan akun yang telah dibuatnya.
 
 ##### Fungsi Login 
 
@@ -346,9 +352,9 @@ Kode "Count = 3" berfungsi sebagai jumlah penghitung jika user
 melakukan salah input, baik itu username maupun password, dan "While
 count" sebagai hitung mundur. Setelah user melakukan input pertama
 kali, maka program akan melakukan pencocokan dengan data yang ada
-didalam MongoClient, kode yang bekerja adalah "user = db.dataAcc
+didalam MongoDB, kode yang bekerja adalah "user = db.dataAcc
 find_one({"name": name, "password": password})" dimana, jika username
-serta password sama dengan data yang ada didalam database MongoClient,
+serta password sama dengan data yang ada didalam database MongoDB,
 maka user akan secara otomatis login. 
 
 Akan tetapi sebelum itu, program akan melakukan pencocokan role dari
@@ -356,7 +362,9 @@ masing-masing akun, jika akun yang di input adalah akun admin
 (Ditandai dengan role "admin") maka user akan secara otomatis login
 sebagai admin, dan akan dirujuk kedalam admin_view.py yang ada didalam folder View (MVC). 
 
-#### User_Controller.py
+-------------------
+### User_Controller.py
+Modul ini berfungsi sebagai kontrol pengguna / user.
 
 
 ```python
@@ -496,7 +504,9 @@ def checkHistory(self):
 
 Kode ini mendefinisikan sebuah metode checkHistory(), yang digunakan untuk menampilkan riwayat transaksi pengguna. Metode ini akan mencetak tabel yang menampilkan tanggal dan detail transaksi dari setiap elemen dalam riwayat transaksi. Data transaksi akan diambil dari setiap simpul pada struktur data linked list yang menyimpan riwayat transaksi. Setiap simpul pada linked list memiliki atribut data yang menyimpan detail transaksi dan atribut time yang menyimpan tanggal dan waktu transaksi terjadi.
 
-#### Controller - email_controller.py
+-------------------
+### Controller - email_controller.py
+Modul ini sebagai kontrol email pengguna.
 ```python
 from __future__ import print_function
 import sib_api_v3_sdk
@@ -540,10 +550,290 @@ def send_email(email, id_flight, name, asal, tujuan, pesawat, tanggal, waktu_keb
         pprint(api_response)
     except ApiException as e:
         print("Exception when calling SMTPApi->send_transac_email: %s\n" % e)
-``` 
+```
 
 Fungsi send_email menggunakan klien API Sendinblue untuk membuat objek email dengan menggunakan parameter yang diberikan, seperti to, params, dan template_id. Objek email kemudian dikirim menggunakan metode send_transac_email dari klien API Sendinblue.
 
-
+-------------------
 #### Controller - flight_controller.py
+Modul berfungsi sebagai kontrol sistem tiket penerbangan traveloka.
 
+```python
+from Model import database as db
+from prettytable import PrettyTable
+import random
+import os
+```
+Pada kode diatas, kita melakukan import database dari folder
+Model, dimana, database.py memiliki informasi-informasi
+mengenai penerbangan seperti tiket, jadwal, harga dan lain
+sebagainya.
+
+##### Fungsi Append
+```python
+def append(self, data):
+        new_node = Node(data)
+        if self.head is None:
+            self.head = new_node
+            return
+        last_node = self.head
+        while last_node.next:
+            last_node = last_node.next
+        last_node.next = new_node
+```
+Pada source code diatas, kita menggunakan fungsi append.....
+
+##### Fungsi Display
+```python
+ def display(self):
+        data = []
+        for d in self.db.find({}):
+            data.append(d)
+
+        if not data:
+                print("List kosong")
+            else:
+                table = PrettyTable(
+                    ['ID Flight', 'Pesawat', 'Asal', 'Tujuan', 'Waktu Keberangkatan', 'Waktu Kedatangan', 'Tanggal Keberangkatan',
+                    'Harga'])
+                for d in data:
+                    table.add_row(
+                        [d['idFlight'], d['airline'], d['origin'], d['destination'], d['departureTime'], d['arrivalTime'],
+                        d['dateTime'], d['price']])
+                print(table)
+```
+Source code diatas berfungsi untuk menampilkan tiket yang dipilih oleh
+user. Variabel "data" adalah sebuah list yang berfungsi sebagai 
+penyimpanan sementara, dimana saat user mencari
+
+##### Fungsi Search
+```python
+def search(self, key):
+        data = []
+        for d in self.db.find({}):
+            data.append(d)
+
+        if not data:
+            print("List kosong")
+            return
+
+        n = len(data)
+        step = int(n ** 0.5)
+        prev = 0
+        while prev < n and data[prev]['idFlight'] < key:
+            prev += step
+        prev -= step
+        while prev < n:
+            if data[prev]['idFlight'] == key:
+                return Node(data[prev])
+            prev += 1
+        return None
+```
+Jenis search yang digunakan pada fungsi search diatas adalah
+jump search. Digunakan untuk mencari data mengenai tiket
+pesawat yang tersedia. Search menerima sebuah parameter key
+lalu
+melakukan pencarian pada data yang disimpan dalam database
+dengan
+berdasarkan "idFlight".
+
+"for d in self.db.find({})" berfungsi sebagai iterasi data,
+dengan
+melakukan iterasi pada MongoDB yang ditandai dengan
+variabel "db"
+jika ketemu, maka source code akan melakukan append / menambah data
+kedalam list sementara (variabel "data"). Jika data MongoDB kosong
+maka akan return print "List Kosong".
+
+Kemudian, jika data telah ditambah, maka search / pencarian akan 
+dilakukan, dimulai dengan mencari panjang list yang ditandai dengan
+variabel "n". Kode "step = int(n ** 0.5)" akan menghitung nilai dari
+step. 
+
+Kode "while prev < n and data[prev]['idFlight'] < key" akan
+melakukan 
+loop yang dimulai dari nilai variabel "prev" yaitu "0" yaitu
+hingga
+mencapai nilai "n" dalam hal ini panjang / seluruh data dari
+database 
+tiket pesawat (ditandai dengan variabel "db"). Loop akan terus
+berlanjut hingga "prev" mencapai seluruh isi variabel n = "db".
+
+Jika data menemukan kesamaan dengan key yang dicara (idFlight),
+kode "return Node(data[prev])" akan mengembalikan item / objek
+yang dicari dari dalam variabel "data" yang berisi list yang
+telah di append sebelumnya.
+
+Namun jika, key (idFlight) tidak sesuai dengan isi dari
+variabel "data", maka program akan "return None".
+
+##### Fungsi AddFlight
+```python
+ def addFlight(self):
+        try:
+            print("=====> Masukkan data penerbangan baru <=====")
+            airline = str.capitalize(input("> Nama Pesawat: "))
+            if not airline:
+                print("Nama pesawat tidak boleh kosong!\n")
+                return
+                ............
+                ............
+```
+Source code diatas berkerja untuk menambah data baru kedalam
+MongoDB, kode "try" berfungsi sebagai looping.
+
+##### Fungsi idFlight
+```python
+def idFlight():
+                if "garuda indonesia" in airline.lower():
+                    if "GA" + str(random.randint(100, 999)) == self.search("GA" + str(random.randint(100, 999))):
+                        return "GA" + str(random.randint(100, 999))
+                    else:
+                        return "GA" + str(random.randint(100, 999))
+                ..............
+                ..............
+```
+Lalu didalam fungsi addFlight, terdapat fungsi yang telah
+dinested yaitu idFlight. idFlight berfungsi sebagai generator
+nama bagi penerbangan, yaitu dengan menggunakan modul random
+randint. Pada contoh diatas, garuda indonesia akan disingkat
+menjadi GA lalu ditambah angka random dibelakangnya. Nama ini
+nantinya akan menjadi idFlgiht (key utama dari penerbangan).
+
+```python
+new_flight = {
+                "idFlight": idFlight(),
+                "airline": airline,
+                "origin": origin,
+                "destination": destination,
+                "departureTime": departureTime,
+                "arrivalTime": arrivalTime,
+                "dateTime": dateTime,
+                "price": price
+            }
+
+            new_node = Node(new_flight)
+
+            if not self.head:
+                self.head = new_node
+                self.tail = new_node
+            else:
+                self.tail.next = new_node
+                self.tail = new_node
+
+            self.db.insert_one(new_flight)
+            print("Pesawat berhasil ditambahkan!\n")
+        except ValueError:
+            print("Masukkan data dengan benar!\n")
+        except KeyboardInterrupt:
+            print("Terjadi Kesalahan!\n")
+```
+
+Setelah user admin melakukan input, melengkapi semua data dari
+fungsi-fungsi sebelumnya (addFlight). Maka kode diatas yaitu
+variabel dictionary "new_flight" akan menambah data baru
+kedalam Node. 
+
+Jika node kosong, maka akan menambah node / head baru, namun
+jika telah terdapat node dengan data yang sama dengan
+new_flight, maka node akan berlanjut bagian selanjutnya.
+Setelah menambah kedalam node baru, kode kemudian menambah
+data baru kedalam database MongoDB.
+
+##### Fungsi deleteFlight
+```python   
+def deleteFlight(self):
+        try:
+            print("Hapus Pesawat\n")
+            self.display()
+            idFlight = str(input("Masukkan ID Pesawat: "))
+            self.search(idFlight)
+            if self.search(idFlight):
+                self.db.delete_one({"idFlight": idFlight})
+                print("Pesawat berhasil dihapus!\n")
+            elif not self.search(idFlight):
+                print("Pesawat tidak ditemukan!\n")
+            else:
+                print("Pesawat tidak ditemukan!\n")
+        ...........
+        ...........
+```
+deleteFlight berfungsi untuk menghapus data pesawat, adapun key
+untuk menghapus data pesawat adalah idFlight (id unik pesawat).
+Dimana pada fungsi ini, kita juga akan menggunakan fungsi
+jump search. 
+
+##### Fungsi updateFlight
+```python
+ def updateFlight(self):
+        print("Edit Pesawat\n")
+        self.display()
+        idFlight = str(input("Masukkan ID Pesawat yang ingin di update: "))
+        self.search(idFlight)
+        if self.search(idFlight):
+            ..............
+            ..............
+            print('|>>>>> Silahkan pilih opsi <<<<<|')
+
+            print('|   1. Kota Asal                |')
+            ..............
+            ..............
+            update = str(input('Pilih data yang ingin di update: '))
+
+            if update == '1':
+                newData = str.capitalize(input("> Masukkan kota asal baru: "))
+                if not newData:
+                    print("Data tidak boleh kosong!\n")
+                else:
+                    self.db.update_one({"idFlight": idFlight}, {"$set": {"origin": newData}})
+                    print("Data berhasil di update!\n")
+            ..............
+            ..............
+            else:
+                print("Pilihan tidak tersedia!\n") 
+        ..............
+        ..............
+            print("Pesawat tidak ditemukan!\n")
+        else:
+            print("Pesawat tidak ditemukan!\n")
+```
+Source code ini berfungsi untuk melakukan update pada data
+penerbangan / maskapai pesawat yang hanya dapat dilakukan
+oleh admininistrator. Pada contoh diatas, user dapat mencari
+data pesawat yang ingin diganti / diubah dengan menggunakan
+key (idFlight) dari masing-masing jenis maskapai penerbangan 
+yang tersedia. 
+
+Setelah user memilih opsi yang ingin di update / diubah, dalam contoh kasus ini adalah
+kota asal penerbangan, maka program akan melakukan update data baru pada MongoDB, dengan 
+kode "self.db.update_one({"idFlight": idFlight}, {"$set": {"origin": newData}})". Kode 
+"$set" akan berkerja dan melakukan set / mengganti origin dengan key / origin baru dari
+newData (input user).
+
+##### Fungsi quick_sort
+```python
+ def quick_sort(self, data):
+        if len(data) <= 1:
+            return data
+
+        pivot = data[0]
+        left = []
+        right = []
+
+        for i in range(1, len(data)):
+            if data[i]['airline'] < pivot['airline']:
+                left.append(data[i])
+            elif data[i]['airline'] > pivot['airline']:
+                right.append(data[i])
+            else:
+                if data[i]['price'] < pivot['price']:
+                    left.append(data[i])
+                else:
+                    right.append(data[i])
+
+        return self.quick_sort(left) + [pivot] + self.quick_sort(right)
+```
+Fungsi quick_sort untuk melakukan sorting data. Pada source code diatas, jika
+len(data) <= 1 (data kurang dari 1), maka artinya data tersebut telah
+terurut / tersorting, sehingga tidak perlu lagi dilakukan pengurutan. Variabel
+pivot merupakan awal mula dari proses sorting, yaitu 0. 
