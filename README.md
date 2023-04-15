@@ -1,23 +1,52 @@
-# Dokumentasi Proyek Akhir Algoritma dan Struktur Data
-## "Implementasi Algoritma dan Struktur Data pada Big Project Traveloka"
--------------------
-### Deskripsi Program
+# <span style= "color: #1ba0e2"> **Dokumentasi Proyek Akhir Algoritma dan Struktur Data** </span>
+
+## <span style= "color: #1ba0e2">**Implementasi Algoritma dan Struktur Data pada Big Project Traveloka** </span>
+## <span style= "color: #1ba0e2">**Anggota Kelompok** </span>
+* **Muhammad Irfan Maulana** - 2209116036
+* **Muhammad Fauzan Gifari Dzul Fahmi** - 2209116042
+* **Abdul Rahman** - 2209116045
+------------------
+## <span style= "color: #1ba0e2">**Daftar Isi** </span>
+
+* [**Deskripsi Program**](#Deskripsi-Program)
+* [**Implementasi Modul**](#Implementasi-Modul)
+* [**Instalasi modul**](#Instalasi-modul)
+* [**Struktur Program**](#Struktur-Program)
+* [**Penjelasan Program**](#Penjelasan-Program)
+    * [**Model**](#Model)
+    * [**View**](#View)
+    * [**Controller**](#Controller)
+------------------
+### **Deskripsi Program**
 
 Traveloka adalah program pelayanan kebutuhan perjalanan dan liburan yang telah dikenal di seluruh asia. Traveloka adalah program dengan sistem pelayanan pada pemesanan
 tiket pesawat, hotel, dan lain lain. Alasan kami memilih Traveloka karena cocok untuk di implementasikan dengan struktur data dan algoritma yang sedang dipelajari saat ini,
 yaitu Linked list, Search, dan Sort. 
 
 -------------------
-## Implementasi Modul
+## **Implementasi Modul**
 
 Adapun Modul yang digunakan dalam Project ini adalah :
 
-* PyMongo: yaitu modul yang menghubungkan antara python dengan Mongodb yang merupakan Database berbasis Hosting/Server Online.
-* Clear Screen (cls): yang merupakan modul untuk memberikan efek clear pada screen terminal.
-* Time: fungsi yang digunakan ialah sleep() yang berfungsi untuk menghentikan program untuk sementara dalam waktu tertentu, diatur dalam satuan detik.
-* PrettyTable: yaitu modul yang digunakan untuk memanipulasi visual data yang akan ditampilkan dalam view.
+* **PyMongo** : yaitu modul yang menghubungkan antara python dengan Mongodb yang merupakan Database berbasis Hosting/Server Online.
+
+* **OS** : yaitu modul bawaan yang menyediakan akses ke fungsionalitads sistem operasi.
+
+* **Time** : fungsi yang digunakan ialah sleep() yang berfungsi untuk menghentikan program untuk sementara dalam waktu tertentu, diatur dalam satuan detik.
+
+* **PrettyTable** : yaitu modul yang digunakan untuk memanipulasi visual data yang akan ditampilkan dalam view.
+
+* **SibApiV3Sdk** : yaitu modul yang digunakan untuk mengambil data dari API yang telah disediakan oleh Sendisblue.
+
+* **Pwinput** : yaitu modul yang digunakan untuk mengambil inputan password tanpa menampilkan password yang diinputkan.
+
+* **Dotenv** : yaitu modul yang digunakan untuk menghubungkan antara program dengan file .env yang berisi key - value dari MongoClient.
+
+* **Random** : yaitu modul yang digunakan untuk mengambil data secara random.
+
+* **DateTime** : yaitu modul yang digunakan untuk mengambil data tanggal dan waktu.
 -------------------
-## Instalasi modul
+## **Instalasi modul**
 
 ```bash
 pip install pymongo
@@ -51,22 +80,26 @@ pip install random
 pip install DateTime
 ```
 -------------------
-## Struktur Program
+## **Struktur Program**
 
-Konsep yang digunakan adalah MVC (Model, view, Controller). MVC adalah arsitektur pengelolaan program menjadi tiga bagian yaitu Model, View, Controller.
+Konsep yang digunakan adalah MVC (Model, View, Controller). MVC adalah arsitektur pengelolaan program menjadi tiga bagian yaitu Model, View, Controller.
 
 * Model Merupakan representasi data atau objek yang menyimpan informasi dan mengelola akses ke data. Model juga bertanggung jawab untuk memproses data, memvalidasi input, dan menyediakan antarmuka untuk mengakses dan memanipulasi data.
+
 * View merupakan komponen antarmuka pengguna yang menampilkan data dan memungkinkan pengguna untuk berinteraksi dengan aplikasi. 
+
 * Controller Merupakan komponen yang menghubungkan Model dan View. Controller bertanggung jawab untuk menerima input dari pengguna, 
 memproses input tersebut dengan menggunakan Model, 
 dan mengirimkan hasil pemrosesan tersebut ke View untuk ditampilkan.
 -------------------
-## Penjelasan Program 
+## **Penjelasan Program**
 -------------------
-### Model - database.py
+## **Model**
+### [**Model - database.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/Model/database.py)
 
 Modul database.py merupakan kepala dari seluruh program Traveloka. 
 
+##### Module Import
 ```python
 from pymongo import MongoClient
 import os
@@ -83,22 +116,29 @@ dataFlight = db["flight"]
 dataHotel = db["hotel"]
 dataTransaction = db["transaction"]
 ``` 
-
-Didalam modul ini, kita menggunakan modul Pymongo sebagai alat penghubung antara Python dengan MongoDB (MongoClient), kemudian kita melakukan import dotenv yang berfungsi sebagai penghubung antara program dengan file .env yang berisi key - value dari MongoClient.
+Pada source code diatas, kita menggunakan modul Pymongo sebagai alat penghubung antara Python dengan MongoDB (MongoClient), kemudian kita melakukan import dotenv yang berfungsi sebagai penghubung antara program dengan file .env yang berisi key - value dari MongoClient.
 
 Kemudian load_dotenv() berfungsi untuk menarik key - value dari cluster MongoClient (getenv("MONGO_URI")) dan menyimpannya didalam dotenv. 
 
 Lalu db = cluster["traveloka"] berfungsi untuk menghubungkan program Database.py dengan MongoClient yang terdapat cluster "Traveloka" didalamnya, lalu baris-baris selanjutnya berfungsi sebagai variabel pemanggil setiap bagian data program traveloka, yaitu akun, tiket pesawat, tiket hotel, dan transaksi.
 
 -------------------
-### View - main_view.py
+## **View**
+### [**View - main_view.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/View/main_view.py)
 Modul ini merupakan tampilan menu awal program Traveloka.
 
-![image](https://user-images.githubusercontent.com/126738691/231107335-02c9fa7a-4d00-4a63-8ebc-0364f816aa85.png)
+##### Module Import
+```python
+from Controller import auth_controller
+import os
+```
 
-Dalam source code tersebut, kita akan memanggil folder CONTROLLER (MVC) yang berisi module Auth_controller.py. Module auth_controller.py sendiri berfungsi sebagai 
-kontrol (Controller) autentikasi bagi user, baik itu user biasa maupun user admin seperti login dan register, dan lupa password.
+Pada source code diatas, kita akan memanggil folder Controller (MVC) yang
+berisi file auth_controller.py yang berfungsi sebagai kontrol (Controller)
+autentikasi bagi user, baik itu user biasa maupun user admin seperti login dan
+register, dan lupa password.
 
+##### Class MenuUtama
 ```python
 class MenuUtama:
     def __init__(self):
@@ -115,11 +155,9 @@ class MenuUtama:
                 print('|>>>>> Silahkan pilih opsi <<<<<|')
                 print('|                               |')
                 print('|   1. Registrasi Akun          |')
-                print('|   2. Login Akun               |')
-                print('|   3. Lupa Password            |')
-                print('|   4. Keluar                   |')
-                print('|                               |')
-                print('=================================')
+                
+                .............
+                .............
 
                 opsi = str(input('Tentukan opsi anda (1/2/3/4): '))
 
@@ -132,23 +170,33 @@ class MenuUtama:
                 elif opsi == '4':
                     print('Terima kasih telah menggunakan layanan kami!')
 ```
+Source code class MenuUtama sendiri terdiri dari beberapa method yaitu methode inisiasi (__init__), dimana method tersebut akan melakukan inisiasi terhadap "auth" yang telah diimport sebelumnya, dan method run yang dimana berisi menu registrasi, login, lupa password, dan keluar. 
 
-Modul ini sendiri terdiri dari beberapa menu yaitu registrasi, login, lupa password, dan keluar. Jika user memilih opsi ke-1 yaitu registrasi aku, maka modul 
-akan merujuk ke modul auth_controller.py yaitu pada bagian register, yang dimana, fungsi register tersebut akan merujuk kedalam folder MODEL (MVC) yang berisi
-database.py, yang telah terhubung kedalam MongoDB. Jika user memilih opsi ke-2, yaitu login akun, maka cara kerjanya sama, yaitu modul akan merujuk ke modul
-auth_controller.py dimana terdapat fungsi login. Opsi ke-3 pun sama, yaitu merujuk kedalam auth_controller.py. Jika user memilih opsi keluar, maka program akan stop.
+Jika user memilih opsi ke-1 yaitu
+registrasi akun, maka modul akan merujuk ke modul auth_controller.py yang dimana, terdapat method register tersebut akan merujuk kedalam folder Model (MVC) yang berisi
+database.py, yang telah terhubung kedalam MongoDB. 
 
+Jika user memilih opsi ke-2, yaitu login akun, maka cara kerjanya sama,
+yaitu modul akan merujuk ke modul auth_controller.py dimana
+terdapat method login. Opsi ke-3 pun sama, yaitu merujuk kedalam
+auth_controller.py. 
+
+Jika user memilih opsi keluar, maka
+program akan stop.
+
+##### Error Handler
 ```python
  except KeyboardInterrupt:
             print('Terjadi kesalahan!')
             exit()
 ```
-Source code diatas berfungsi sebagai penanganan / penyelesain jika terjadi error KeyboardInterrupt.
+Source code diatas berfungsi sebagai penanganan / penyelesain jika terjadi error KeyboardInterrupt (CTRL + C).
 
-### View - user_view.py
+### [**View - user_view.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/View/user_view.py)
 
-#### Import Modul
+Modul ini merupakan tampilan menu utama user.
 
+##### Module Import
 ```python
 from Controller import flight_controller as fc
 from Controller import auth_controller as auth
@@ -156,16 +204,9 @@ from Controller import user_controller as uc
 from View import main_view as main
 import os
 ```
-"from Controller import flight_controller as fc": Ini mengimport modul flight_controller dari paket Controller dan memberikannya alias fc. Setelah diimport, modul ini bisa dipanggil menggunakan alias fc.
+Pada source code diatas, kita melakukan import flight_controller.py dari folder Controller (MVC), dan akan dipanggil sebagai "fc". Selain flight_controller.py, kita juga akan melakukan import modul lainnya, yaitu auth_controller.py sebagai "auth", user_controller.py sebagai "uc" dan kita juga akan melakukan import modul main_view.py dari dalam folder View (MVC)
 
-"from Controller import auth_controller as auth": Ini mengimport modul auth_controller dari paket Controller dan memberikannya alias auth. Setelah diimport, modul ini bisa dipanggil menggunakan alias auth.
-
-"from Controller import user_controller as uc": Ini mengimport modul user_controller dari paket Controller dan memberikannya alias uc. Setelah diimport, modul ini bisa dipanggil menggunakan alias uc.
-
-"from View import main_view as main": Ini mengimport modul main_view dari paket View dan memberikannya alias main. Setelah diimport, modul ini bisa dipanggil menggunakan alias main.
-
-"import os": Ini mengimport modul os yang merupakan modul bawaan Python. Modul ini berisi fungsi-fungsi untuk melakukan interaksi dengan sistem operasi yang digunakan
-
+##### Class UserView
 ```python
 class UserView:
 
@@ -184,14 +225,10 @@ class UserView:
                 print("|-----> Menu yang tersedia <-----|")
                 print("|                                |")
                 print("|    1. Cari Tiket Pesawat       |")
-                print("|    2. Lihat Tiket Pesawat      |")
-                print("|    3. Riwayat Pembelian        |")
-                print("|    4. Isi Saldo                |")
-                print("|    5. Cek Profil               |")
-                print("|    6. Urutkan Data Pesawat     |")
-                print("|    7. Sign Out                 |")
-                print("|                                |")
-                print("==================================")
+
+                .....................
+                .....................
+
                 opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
                 if opsi == '1':
@@ -221,31 +258,30 @@ class UserView:
             print("\nTerjadi Kesalahan!")
             exit()
 ```
-Class userview adalah pendefinisian sebuah class yang bernama userview. Class userview memiliki fungsi sebagai pusat tampilan menu utama bagi user yang dimana terdapat beberapa method seperti init dan menu_user. 
+Pada source code diatas, Class userview memiliki fungsi sebagai pusat tampilan menu utama bagi user yang dimana terdapat beberapa method seperti init dan menu_user. 
 
-#### Inisiasi Atribut Class
+Method __init__ pada kelas diatas digunakan untuk menginisialisasi tiga atribut yaitu flight, auth, dan user. Atribut flight adalah sebuah objek dari kelas LinkedList yang didefinisikan dalam modul flight_controller dan diimport sebelumnya menggunakan alias fc, sedangkan atribut auth dan user adalah objek dari kelas User dan UserController masing-masing. 
 
-Method __init__ pada kelas ini digunakan untuk menginisialisasi tiga atribut yaitu flight, auth, dan user. Atribut flight adalah sebuah objek dari kelas LinkedList yang didefinisikan dalam modul flight_controller dan diimport sebelumnya menggunakan alias fc, sedangkan atribut auth dan user adalah objek dari kelas User dan UserController masing-masing. 
-
-#### Fungsi Menu_User
-
-kelas UserView juga memiliki method menu_user yang digunakan untuk menampilkan tampilan menu utama aplikasi dan menerima input dari pengguna. Pada method menu_user, terdapat sebuah loop while yang akan berjalan terus menerus hingga pengguna memilih opsi keluar dari aplikasi. Loop ini akan menampilkan tampilan menu utama aplikasi dan meminta pengguna untuk memilih opsi dengan memasukkan nomor opsi yang diinginkan.
-
-#### Contoh Pemilihan Opsi Menu
+Selain itu, kelas UserView juga memiliki method menu_user yang digunakan untuk menampilkan tampilan menu utama aplikasi dan menerima input dari pengguna. Pada method menu_user, terdapat sebuah loop while yang akan berjalan terus menerus hingga pengguna memilih opsi keluar dari aplikasi. Loop ini akan menampilkan tampilan menu utama aplikasi dan meminta pengguna untuk memilih opsi dengan memasukkan nomor opsi yang diinginkan.
 
 Misalnya, jika pengguna memilih opsi untuk mencari tiket pesawat, program akan memanggil method buyTicket dari objek user untuk memulai proses pembelian tiket. Jika pengguna memilih opsi untuk melihat riwayat pembelian, program akan memanggil method checkHistory dari objek user untuk menampilkan riwayat pembelian yang dilakukan oleh pengguna tersebut.
 
-#### Opsi Logout
-
-Jika pengguna memilih opsi untuk keluar dari aplikasi, program akan memanggil method logout dari objek auth untuk logout dari aplikasi dan kembali ke menu utama dengan memanggil method run dari kelas MenuUtama yang didefinisikan dalam modul main_view.
+Yang terakhir adalah opsi untuk keluar dari aplikasi, program akan memanggil method logout dari objek auth untuk logout dari aplikasi dan kembali ke menu utama dengan memanggil method run dari kelas MenuUtama yang didefinisikan dalam modul main_view.
 
 
-### View - admin_view.py
+### [**View - admin_view.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/View/admin_view.py)
 Modul ini sebagai tampilan menu utama / display bagi administrator.
 
-![image](https://user-images.githubusercontent.com/126738691/231103225-fb1cd0ed-3aad-4451-8a3c-251da80fa0d2.png)
+```python
+from View import main_view as main
+from Controller import flight_controller as fc
+from Controller import auth_controller as auth
+import os
+```
 
-Module ini berisi menu tambah pesawat, lihat pesawat, edit pesawat, hapus pesawat, dan sign out. Admin_view.py terhubung dengan main_view.py, flight_controller.py, dan auth_controller.py.
+Sama halnya dengan modul-modul sebelumnya, source code diatas akan melakukan import modul, yaitu main_view.py dari folder View (MVC) sert, flight_controller.py dan auth_controller.py dari folder Controller (MVC). 
+
+Modul ini sendiri berisi method admin_menu, dimana didalamnya, terdapat menu tambah pesawat, lihat pesawat, edit pesawat, hapus pesawat, dan sign out. Admin_view.py terhubung dengan main_view.py, flight_controller.py, dan auth_controller.py.
 
 ```python
 def menu_admin(self):
@@ -259,11 +295,8 @@ def menu_admin(self):
                 print("|                                |")
                 print("|    1. Tambah Pesawat           |")
                 print("|    2. Lihat Pesawat            |")
-                print("|    3. Edit Pesawat             |")
-                print("|    4. Hapus Pesawat            |")
-                print("|    5. Sign Out                 |")
-                print("|                                |")
-                print("==================================")
+                .....................
+                .....................
                 opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
                 if opsi == '1':
@@ -280,13 +313,16 @@ def menu_admin(self):
                 else:
                     print("Opsi tidak tersedia!")
 ```
-Setiap menu terhubung dengan beberapa kode program yang telah disebutkan diatas. Jika user memilih opsi ke-1, maka user akan menuju flight_controller.py yang berada
-didalam Controller (MVC), didalam fungsi ini, user dapat admin dapat menambah data pesawat, dan fungsi ini sendiri terhubung dengan modul database.py. Selanjutnya
+Setiap menu terhubung dengan beberapa kode program yang telah disebutkan diatas. 
+
+Jika user memilih opsi ke-1, maka user akan merujuk flight_controller.py yang berada didalam Controller (MVC).Didalam method ini (menu_admin), user admin dapat menambah data pesawat, dimana fungsi ini sendiri terhubung dengan modul database.py. 
+
+Selanjutnya
 adalah opsi ke-2, yaitu "Lihat pesawat", opsi ini juga akan mengarahkan user kedalam flight_controller.py didalam Controller (MVC). Opsi ke-3 juga memiliki cara kerja
 yang sama, yaitu modul akan merujuk ke flight_controller.py. Lalu opsi ke-4, maka modul akan merujuk kedalam Auth_controller.py didalam folder Controller (MVC).
 
 -------------------
-### Controller - auth_controller.py
+### [**Controller - auth_controller.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/Controller/auth_controller.py)
 Modul ini sebagai kontrol autentikasi user.
 
 ```python
@@ -298,8 +334,7 @@ import pwinput
 import os
 import re
 ``` 
-Source code diatas akan melakuan import database.py dari dalam folder Model, lalu admin_view.py dan user_view.py dari dalam folder View (MVC).
-Selanjutnya adalah import main.......###.
+Sama halnya dengan source code sebelumnya, source code diatas akan melakuan import database.py dari dalam folder Model, dan admin_view.py dan user_view.py dari dalam folder View (MVC).
 ```python
 class User:
 
@@ -410,8 +445,7 @@ else:
     return True
 ``` 
 
-Jika seluruh kriteria diatas terpenuhi (username, password, email, dan saldo) maka program akan melakukan "insert" data kedalam dataAcc di
-dalam MongoDB. User sekarang dapat menggunakan akun yang telah dibuatnya.
+Jika seluruh kriteria diatas terpenuhi (username, password, email, dan saldo) maka program akan melakukan "insert" data kedalam dataAcc didalam MongoDB. User sekarang dapat menggunakan akun yang telah dibuatnya.
 
 #### Fungsi Login 
 
@@ -454,13 +488,13 @@ maka user akan secara otomatis login.
 
 Akan tetapi sebelum itu, program akan melakukan pencocokan role dari
 masing-masing akun, jika akun yang di input adalah akun admin
-(Ditandai dengan role "admin") maka user akan secara otomatis login
-sebagai admin, dan akan dirujuk kedalam admin_view.py yang ada didalam folder View (MVC). 
+(Ditandai dengan role "admin") maka user akan secara otomatis login sebagai admin, dan akan dirujuk kedalam admin_view.py yang ada didalam folder View (MVC). 
 
 -------------------
-### Controller - User_Controller.py
-Modul ini berfungsi sebagai kontrol pengguna / user.
+## **Controller**
+### [**Controller - User_Controller.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/Controller/user_controller.py)
 
+Modul ini berfungsi sebagai kontrol pengguna / user.
 
 ```python
 from Controller import flight_controller as fc
@@ -471,11 +505,11 @@ from datetime import datetime
 from prettytable import PrettyTable
 ``` 
 
-"from controller import flight_controller as fc" adalah perintah untuk mengimport modul "flight_controller" yang merepresentasikan suatu class yang akan diimport dari file bernama "Controller" dan diberikan alias "fc". Hal ini juga berlaku hingga baris ke empat. 
+"from controller import flight_controller as fc" : perintah untuk mengimport file "flight_controller.py" yang merepresentasikan suatu class yang akan diimport dari file bernama "Controller" dan diberikan alias "fc". Hal ini juga berlaku hingga baris ke empat. 
 
-"from datetime import datetime" Dalam baris kode ini, modul datetime dari library bawaan Python diimpor ke dalam program. Modul ini berisi kelas datetime yang digunakan untuk memanipulasi tanggal dan waktu dalam Python.
+"from datetime import datetime" : Dalam baris kode ini, modul datetime dari library bawaan Python diimpor ke dalam program. Modul ini berisi kelas datetime yang digunakan untuk memanipulasi tanggal dan waktu dalam Python.
 
-"from prettytable import PrettyTable" Baris kode tersebut merupakan contoh penggunaan statement import pada Python untuk mengimpor modul PrettyTable ke dalam sebuah program. 
+"from prettytable import PrettyTable" : Baris kode tersebut merupakan contoh penggunaan statement import pada Python untuk mengimpor modul PrettyTable ke dalam sebuah program. 
 
 ```python
 class Node:
@@ -485,7 +519,7 @@ class Node:
         self.next = None
 ``` 
 
-Node didefinisikan sebagai suatu Implementasi dari struktur data Linked List untuk merepresentasikan sebuah node atau simpul dalam linked list.
+Class Node didefinisikan sebagai suatu Implementasi dari struktur data Linked List untuk merepresentasikan sebuah node atau simpul dalam linked list.
 
 ```python
 class LinkedList:
@@ -505,10 +539,12 @@ class LinkedList:
     def display(self):
         curr_node = self.head
         while curr_node:
-            # print(curr_node.data)
             print (f"{curr_node.time}: {curr_node.data}") 
             curr_node = curr_node.next
 
+```
+
+Class Linked List adalah suatu implementasi salah satu fundamental struktur data yaitu Linked List. Linked List yang dipakai ialah singly linked list. Dalam class linked list terdapat dua method yaitu "append" yang berfungsi untuk menambahkan data melalui "node" atau simpul linked list, dan method "display" yang berfungsi untuk mencetak data yang ada didalam struktur data linked list. 
 
 ```python
 class UserController:
@@ -545,11 +581,9 @@ class UserController:
 
 ```
 
-Class Linked List adalah suatu implementasi salah satu fundamental struktur data yaitu Linked List. Linked List yang dipakai ialah singly linked list. Dalam class linked list terdapat dua method yaitu "append" yang berfungsi untuk menambahkan data melalui "node" atau simpul linked list, dan method "display" yang berfungsi untuk mencetak data yang ada didalam struktur data linked list. 
-
 Class User Controller adalah Class yang berfungsi sebagai pengontrol alur kerja user, dan menghubungkannya ke struktur data yang lain. didalamnya terdapat beberapa method yaitu __init__ yang merupakan penginisialisasian atribut - atribut yang dimiliki seperti self.flight yang merepresentasikan penerbangan yang di inisialisasi sebagai linkedlist, self.db sebagai database flight dari model, dan self.history untuk riwayat yang diinisialisasikan sebagai linked list.
 
-method buy ticket Kode ini mendefinisikan sebuah metode buyTicket(), yang memungkinkan pengguna untuk membeli tiket penerbangan. Proses pembelian tiket melibatkan pencarian tiket berdasarkan ID penerbangan, mengambil harga tiket dari database, memeriksa saldo pengguna, dan memperbarui saldo pengguna serta mengirim email konfirmasi pembelian kepada pengguna. Jika saldo pengguna mencukupi, transaksi akan berhasil dan informasi transaksi akan ditambahkan ke riwayat transaksi. Namun, jika saldo pengguna tidak mencukupi atau tiket tidak ditemukan, maka pesan kesalahan akan ditampilkan.
+Method buy ticket Kode ini mendefinisikan sebuah metode buyTicket(), yang memungkinkan pengguna untuk membeli tiket penerbangan. Proses pembelian tiket melibatkan pencarian tiket berdasarkan ID penerbangan, mengambil harga tiket dari database, memeriksa saldo pengguna, dan memperbarui saldo pengguna serta mengirim email konfirmasi pembelian kepada pengguna. Jika saldo pengguna mencukupi, transaksi akan berhasil dan informasi transaksi akan ditambahkan ke riwayat transaksi. Namun, jika saldo pengguna tidak mencukupi atau tiket tidak ditemukan, maka pesan kesalahan akan ditampilkan.
 
 ```python
 def addBalance(self):
@@ -600,7 +634,7 @@ def checkHistory(self):
 Kode ini mendefinisikan sebuah metode checkHistory(), yang digunakan untuk menampilkan riwayat transaksi pengguna. Metode ini akan mencetak tabel yang menampilkan tanggal dan detail transaksi dari setiap elemen dalam riwayat transaksi. Data transaksi akan diambil dari setiap simpul pada struktur data linked list yang menyimpan riwayat transaksi. Setiap simpul pada linked list memiliki atribut data yang menyimpan detail transaksi dan atribut time yang menyimpan tanggal dan waktu transaksi terjadi.
 
 -------------------
-### Controller - email_controller.py
+### [**Controller - email_controller.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/Controller/email_controller.py)
 Modul ini sebagai kontrol email pengguna.
 ```python
 from __future__ import print_function
@@ -650,7 +684,7 @@ def send_email(email, id_flight, name, asal, tujuan, pesawat, tanggal, waktu_keb
 Fungsi send_email menggunakan klien API Sendinblue untuk membuat objek email dengan menggunakan parameter yang diberikan, seperti to, params, dan template_id. Objek email kemudian dikirim menggunakan metode send_transac_email dari klien API Sendinblue.
 
 -------------------
-### Controller - flight_controller.py
+### [**Controller - flight_controller.py**](https://github.com/PA-ASD-Kelompok-2/traveloka/blob/main/Controller/flight_controller.py)
 Modul berfungsi sebagai kontrol sistem tiket penerbangan traveloka.
 
 ```python
@@ -925,10 +959,51 @@ newData (input user).
                     left.append(data[i])
                 else:
                     right.append(data[i])
-
-        return self.quick_sort(left) + [pivot] + self.quick_sort(right)
 ```
-Fungsi quick_sort untuk melakukan sorting data. Pada source code diatas, jika
+Fungsi quick_sort untuk melakukan sorting data. Pada source code diatas, terdapat "pivot", yaitu sebagai pembagi, dimana data akan dibagi menjadi dua bagian lalu variabel "left" dan "right" merupakan penyimpanan sementara, yang akan diappend / ditambah nantinya dari loop. 
+
+Jika
 len(data) <= 1 (data kurang dari 1), maka artinya data tersebut telah
-terurut / tersorting, sehingga tidak perlu lagi dilakukan pengurutan. Variabel
-pivot merupakan awal mula dari proses sorting, yaitu 0. 
+terurut / tersorting, sehingga tidak perlu lagi dilakukan pengurutan. 
+
+Variabel
+pivot merupakan awal mula dari proses sorting, yaitu 0, pivot sendiri akan membagi data menjadi dua bagian. Jika data lebih dari 1, maka source
+code quicksort diatas akan melakukan loop, dimana loop akan melakukan iterasi "[i]" beberapa kali sebanyak isi dari list data. 
+
+Jika "airline" / data yang dicari kurang dari "airline", maka data akan di append / ditambah ke bagian variabel "left", jika "airline" lebih besar dari nilai "airline", maka data akan di append ke bagian variabel "right". 
+
+Maksudnya adalah, "airline" akan melakukan perbandingan, dimana dalam kasus ini adalah huruf dan angka, contohnya QA dan QB, maka akan dilakukan perbandingan, dimana QA lebih dahulu daripada QB, karena A lebih kecil dari B. 
+
+Namun jika nama sama, maka akan dilakukan perbandingan pada harga "data[i]['price'] < pivot['price']", dimana jika "price" pada "airline" yang diurutkan kurang dari "price" yang disamakan, maka akan di append ke variabel "left", sebaliknya akan di append ke variabel "right".
+
+Dalam contoh kasus, QA dan QA memiliki nama sama, namun dengan harga berbeda, contohnya QA Rp.500,000 dengan QA Rp.700,000. Maka QA dengan harga Rp.500,000 akan diurutkan lebih dulu, tergantung diurut sebagai apa, bisa ascending maupun descending.
+
+```python
+        return self.quick_sort(left) + [pivot] + self quick_sort(right)
+```
+Setelah melakukan pengurutan tadi, maka nilai akan dikembalikan. Dan modul akan berlanjut ke source code berikutnya.
+
+#### Fungsi quick_sort
+```python
+ def sort_flights(self):
+        data = []
+        for i in self.db.find():
+            data.append(i)
+
+        sorted_data = self.quick_sort(data)
+        
+        table = PrettyTable()
+        table.title = "Data sortir berdasarkan nama pesawat"
+        table.field_names = ['ID Flight', 'Pesawat', 'Asal', 'Tujuan', 'Waktu Keberangkatan', 'Waktu Kedatangan', 'Tanggal Keberangkatan',
+                 'Harga']
+
+        for flight in sorted_data:
+            table.add_row(
+                    [flight['idFlight'], flight['airline'], flight['origin'], flight['destination'], flight['departureTime'], flight['arrivalTime'],
+                     flight['dateTime'], flight['price']])
+
+        print(table)
+```
+Source code diatas merupakan lanjutan dari quick sort sebelumnya, kode akan mencari data penerbangan didalam MongoDB, lalu setelah itu akan dilakukan append kedalam variabel data list.
+
+Setelah itu, modul akan menjalankan fungsi sebelumnya, yaitu quick sort, dan melakukan sorting data. Jika sudah, maka fungsi akan melakukan print tabel.
