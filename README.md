@@ -12,6 +12,7 @@
 * [**Implementasi Modul**](#Implementasi-Modul)
 * [**Instalasi modul**](#Instalasi-modul)
 * [**Struktur Program**](#Struktur-Program)
+* [**Cara Penggunaan**](#Cara-Penggunaan)
 * [**Penjelasan Program**](#Penjelasan-Program)
     * [**Model**](#Model)
     * [**View**](#View)
@@ -91,6 +92,10 @@ Konsep yang digunakan adalah MVC (Model, View, Controller). MVC adalah arsitektu
 * Controller Merupakan komponen yang menghubungkan Model dan View. Controller bertanggung jawab untuk menerima input dari pengguna, 
 memproses input tersebut dengan menggunakan Model, 
 dan mengirimkan hasil pemrosesan tersebut ke View untuk ditampilkan.
+
+## **Cara Penggunaan**
+
+
 -------------------
 ## **Penjelasan Program**
 -------------------
@@ -155,9 +160,11 @@ class MenuUtama:
                 print('|>>>>> Silahkan pilih opsi <<<<<|')
                 print('|                               |')
                 print('|   1. Registrasi Akun          |')
-                
-                .............
-                .............
+                print('|   2. Login Akun               |')
+                print('|   3. Lupa Password            |')
+                print('|   4. Keluar                   |')
+                print('|                               |')
+                print('=================================')
 
                 opsi = str(input('Tentukan opsi anda (1/2/3/4): '))
 
@@ -169,6 +176,10 @@ class MenuUtama:
                     self.auth.forgot_password()
                 elif opsi == '4':
                     print('Terima kasih telah menggunakan layanan kami!')
+                    exit()
+                else:
+                    print('Opsi tidak tersedia!')
+                    os.system('cls')
 ```
 Source code class MenuUtama sendiri terdiri dari beberapa method yaitu methode inisiasi (__init__), dimana method tersebut akan melakukan inisiasi terhadap "auth" yang telah diimport sebelumnya, dan method run yang dimana berisi menu registrasi, login, lupa password, dan keluar. 
 
@@ -225,10 +236,14 @@ class UserView:
                 print("|-----> Menu yang tersedia <-----|")
                 print("|                                |")
                 print("|    1. Cari Tiket Pesawat       |")
-
-                .....................
-                .....................
-
+                print("|    2. Lihat Tiket Pesawat      |")
+                print("|    3. Riwayat Pembelian        |")
+                print("|    4. Isi Saldo                |")
+                print("|    5. Cek Profil               |")
+                print("|    6. Urutkan Data Pesawat     |")
+                print("|    7. Sign Out                 |")
+                print("|                                |")
+                print("==================================")
                 opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
                 if opsi == '1':
@@ -295,17 +310,24 @@ def menu_admin(self):
                 print("|                                |")
                 print("|    1. Tambah Pesawat           |")
                 print("|    2. Lihat Pesawat            |")
-                .....................
-                .....................
+                print("|    3. Edit Pesawat             |")
+                print("|    4. Hapus Pesawat            |")
+                print("|    5. Sign Out                 |")
+                print("|                                |")
+                print("==================================")
                 opsi = str(input("Tentukan opsi anda (1/2/3/4/5): "))
 
                 if opsi == '1':
+                    os.system('cls')
                     self.flight.addFlight()
                 elif opsi == '2':
+                    os.system('cls')
                     self.flight.display()
                 elif opsi == '3':
+                    os.system('cls')
                     self.flight.updateFlight()
                 elif opsi == '4':
+                    os.system('cls')
                     self.flight.deleteFlight()
                 elif opsi == '5':
                     self.auth.logout()
@@ -805,8 +827,36 @@ variabel "data", maka program akan "return None".
             if not airline:
                 print("Nama pesawat tidak boleh kosong!\n")
                 return
-                ............
-                ............
+            
+            origin = str.capitalize(input("> Kota Asal: "))
+            if not origin:
+                print("Kota asal tidak boleh kosong!\n")
+                return
+            
+            destination = str.capitalize(input("> Kota Tujuan: "))
+            if not destination:
+                print("Kota tujuan tidak boleh kosong!\n")
+                return
+            
+            departureTime = str(input("> Waktu Keberangkatan (hh:mm):"))
+            if not departureTime:
+                print("Waktu keberangkatan tidak boleh kosong!\n")
+                return
+            
+            arrivalTime = str(input("> Waktu Kedatangan (hh:mm): "))
+            if not arrivalTime:
+                print("Waktu kedatangan tidak boleh kosong!\n")
+                return
+            
+            dateTime = str(input("> Tanggal Keberangkatan (yyyy-mm-dd): "))
+            if not dateTime:
+                print("Tanggal keberangkatan tidak boleh kosong!\n")
+                return
+            
+            price = int(input("> Harga tiket: "))
+            if not price:
+                print("Harga tiket tidak boleh kosong!\n")
+                return
 ```
 Source code diatas berkerja untuk menambah data baru kedalam
 MongoDB, kode "try" berfungsi sebagai looping.
@@ -819,8 +869,42 @@ def idFlight():
                         return "GA" + str(random.randint(100, 999))
                     else:
                         return "GA" + str(random.randint(100, 999))
-                ..............
-                ..............
+                    
+                elif "lion air" in airline.lower():
+                    if "JT" + str(random.randint(100, 999)) == self.search("JT" + str(random.randint(100, 999))):
+                        return "JT" + str(random.randint(100, 999))
+                    else:
+                        return "JT" + str(random.randint(100, 999))
+                    
+                elif "sriwijaya air" in airline.lower():
+                    if "SJ" + str(random.randint(100, 999)) == self.search("SJ" + str(random.randint(100, 999))):
+                        return "SJ" + str(random.randint(100, 999))
+                    else:
+                        return "SJ" + str(random.randint(100, 999))
+                    
+                elif "citilink" in airline.lower():
+                    if "QG" + str(random.randint(100, 999)) == self.search("QG" + str(random.randint(100, 999))):
+                        return "QG" + str(random.randint(100, 999))
+                    else:
+                        return "QG" + str(random.randint(100, 999))
+                    
+                elif "air asia" in airline.lower():
+                    if "QZ" + str(random.randint(100, 999)) == self.search("QZ" + str(random.randint(100, 999))):
+                        return "QZ" + str(random.randint(100, 999))
+                    else:
+                        return "QZ" + str(random.randint(100, 999))
+                    
+                elif "batik air" in airline.lower():
+                    if "ID" + str(random.randint(100, 999)) == self.search("ID" + str(random.randint(100, 999))):
+                        return "ID" + str(random.randint(100, 999))
+                    else:
+                        return "ID" + str(random.randint(100, 999))
+                    
+                else:
+                    if "XX" + str(random.randint(100, 999)) == self.search("XX" + str(random.randint(100, 999))):
+                        return "XX" + str(random.randint(100, 999))
+                    else:
+                        return "XX" + str(random.randint(100, 999))
 ```
 Lalu didalam fungsi addFlight, terdapat fungsi yang telah
 dinested yaitu idFlight. idFlight berfungsi sebagai generator
@@ -884,8 +968,12 @@ def deleteFlight(self):
                 print("Pesawat tidak ditemukan!\n")
             else:
                 print("Pesawat tidak ditemukan!\n")
-        ...........
-        ...........
+
+        except ValueError:
+            print("Masukkan data dengan benar!\n")
+        except KeyboardInterrupt:
+            print("Terjadi Kesalahan!\n")
+
 ```
 deleteFlight berfungsi untuk menghapus data pesawat, adapun key
 untuk menghapus data pesawat adalah idFlight (id unik pesawat).
@@ -894,19 +982,26 @@ jump search.
 
 #### Fungsi updateFlight
 ```python
- def updateFlight(self):
+  def updateFlight(self):
         print("Edit Pesawat\n")
         self.display()
         idFlight = str(input("Masukkan ID Pesawat yang ingin di update: "))
         self.search(idFlight)
         if self.search(idFlight):
-            ..............
-            ..............
+            print('=================================')
+            print('|   Apa yang ingin di update?   |')
+            print('=================================')
             print('|>>>>> Silahkan pilih opsi <<<<<|')
-
+            print('|                               |')
             print('|   1. Kota Asal                |')
-            ..............
-            ..............
+            print('|   2. Kota Tujuan              |')
+            print('|   3. Waktu Keberangkatan      |')
+            print('|   4. Waktu Kedatangan         |')
+            print('|   5. Tanggal Keberangkatan    |')
+            print('|   6. Harga                    |')
+            print('|   7. Kembali                  |')
+            print('|                               |')
+            print('=================================')
             update = str(input('Pilih data yang ingin di update: '))
 
             if update == '1':
@@ -916,12 +1011,54 @@ jump search.
                 else:
                     self.db.update_one({"idFlight": idFlight}, {"$set": {"origin": newData}})
                     print("Data berhasil di update!\n")
-            ..............
-            ..............
+
+            elif update == '2':
+                newData = str.capitalize(input("> Masukkan kota tujuan baru: "))
+                if not newData:
+                    print("Data tidak boleh kosong!\n")
+                else:
+                    self.db.update_one({"idFlight": idFlight}, {"$set": {"destination": newData}})
+                    print("Data berhasil di update!\n")
+
+            elif update == '3':
+                newData = str(input("> Masukkan waktu keberangkatan baru (hh:mm): "))
+                if not newData:
+                    print("Data tidak boleh kosong!\n")
+                else:
+                    self.db.update_one({"idFlight": idFlight}, {"$set": {"departureTime": newData}})
+                    print("Data berhasil di update!\n")
+
+            elif update == '4':
+                newData = str(input("> Masukkan waktu kedatangan baru (hh:mm): "))
+                if not newData:
+                    print("Data tidak boleh kosong!\n")
+                else:
+                    self.db.update_one({"idFlight": idFlight}, {"$set": {"arrivalTime": newData}})
+                    print("Data berhasil di update!\n")
+
+            elif update == '5':
+                newData = str(input("> Masukkan tanggal keberangkatan baru (yyyy-mm-dd): "))
+                if not newData:
+                    print("Data tidak boleh kosong!\n")
+                else:
+                    self.db.update_one({"idFlight": idFlight}, {"$set": {"dateTime": newData}})
+                    print("Data berhasil di update!\n")
+
+            elif update == '6':
+                newData = int(input("> Masukkan harga baru: "))
+                if newData < 0:
+                    print("Harga tidak boleh kurang dari nol!\n")
+                else:   
+                    self.db.update_one({"idFlight": idFlight}, {"$set": {"price": newData}})
+                    print("Data berhasil di update!\n")
+
+            elif update == '7':
+                return os.system('cls')
+
             else:
                 print("Pilihan tidak tersedia!\n") 
-        ..............
-        ..............
+
+        elif not self.search(idFlight):
             print("Pesawat tidak ditemukan!\n")
         else:
             print("Pesawat tidak ditemukan!\n")
