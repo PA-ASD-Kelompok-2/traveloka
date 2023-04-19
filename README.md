@@ -13,6 +13,9 @@
 * [**Instalasi modul**](#Instalasi-modul)
 * [**Struktur Program**](#Struktur-Program)
 * [**Cara Penggunaan**](#Cara-Penggunaan)
+    * [**Opsi Awal**](#Opsi-Awal)
+    * [**Tampilan User**](#Tampilan-User)
+    * [**Tampilan Admin**](#Menu-Admin)
 * [**Penjelasan Program**](#Penjelasan-Program)
     * [**Model**](#Model)
     * [**View**](#View)
@@ -94,6 +97,127 @@ memproses input tersebut dengan menggunakan Model,
 dan mengirimkan hasil pemrosesan tersebut ke View untuk ditampilkan.
 
 ## **Cara Penggunaan**
+
+### **Opsi Awal**
+
+![image](https://user-images.githubusercontent.com/121864328/233088413-2dc06c00-cf52-45da-af44-50b3a811c89d.png)
+
+Ketika program pertama kali dijalankan user akan ditampilkan empat opsi awal yaitu "Registrasi Akun", "Login Akun", "Lupa Password", dan "Keluar Registrasi akun adalah opsi untuk mendaftar ke program sebagai pengguna baru. Login akun adalah opsi untuk masuk dengan menggunakan akun yang telah terdaftar. dan Lupa Password untuk membuat password baru apabila lupa dengan password yang lama. dan Opsi keluar untuk menutup program.
+
+##### Registrasi Akun
+
+1. Lakukan Pendaftaran dengan memasukkan username, password, saldo awal yang diinginkan. Kemudian masukkan email (email tidak boleh fiksi dan terdaftar)
+
+![image](https://user-images.githubusercontent.com/121864328/233095033-0eb6920f-820b-4cf9-a9ba-d3feb28050f1.png)
+
+2. Data registrasi akan dikonfirmasi dan tekan enter untuk lanjut
+
+![image](https://user-images.githubusercontent.com/121864328/233095101-5301eb53-046d-4a47-a2eb-2eb73a45c87b.png)
+
+##### Login Akun
+
+Setelah akun telah terdaftar anda dapat login dengan memasukkan username dan password seperti contoh dibawah ini.
+
+![image](https://user-images.githubusercontent.com/121864328/233096081-7196ac1b-f61d-46b1-bea9-548b0a2dd0bf.png)
+
+Anda juga dapat login sebagai admin dengan akun yang telah dimiliki
+
+##### Lupa Password
+
+Masukkan username dan password baru.
+
+![image](https://user-images.githubusercontent.com/121864328/233096757-8ef17533-6da6-48fc-9136-9ce66faec1f1.png)
+
+### **Tampilan User**
+
+![image](https://user-images.githubusercontent.com/121864328/233097666-5ad419e6-dcb6-4208-b0a0-fd10d3dc87e6.png)
+
+Dengan login sebagai user, pengguna akan diarahkan ke beberapa menu regular bagi user.
+
+##### Cari Tiket Pesawat
+
+1. Ketika memilih opsi cari tiket pesawat program akan menampilkan daftar penerbangan penerbangan yang tersedia dan dapat dipesan. Penerbangan terdiri dari Id Flight, Nama pesawat, Asal, Tujuan, Waktu Keberangkatan, Waktu Kedatangan, Tanggal Keberangkatan, Harga. 
+
+![image](https://user-images.githubusercontent.com/121864328/233098475-da425495-d038-456a-9119-900f24da7d7b.png)
+
+2. Untuk memesan tiket pesawat, masukkan ID flight dari penerbangan yang diinginkan.
+
+![image](https://user-images.githubusercontent.com/121864328/233099397-75da86df-7aac-4d18-9eca-379312242f14.png)
+
+3. Setelah memesan, maka akan Invoice akan dikirimkan melalui email yang didaftarkan dengan bentuk receipt
+
+![image](https://user-images.githubusercontent.com/121864328/233099790-227abab0-64f2-49dd-80c9-90f610167744.png)
+
+##### Lihat Tiket Pesawat
+
+Jika memilih Opsi lihat tiket pesawat, program akan menampilkan penerbangan yang tersedia untuk dipesan
+
+![image](https://user-images.githubusercontent.com/121864328/233100305-ce914759-f340-48fa-b385-46539bb561c9.png)
+
+##### Riwayat Pembelian
+
+Sesuai namanya, riwayat pembelian berisi riwayat pemesanan pesawat dan riwayat pengisian saldo 
+
+![image](https://user-images.githubusercontent.com/121864328/233100815-1994c961-d5d8-4c27-90fe-b1dff55e1d8e.png)
+
+##### Isi saldo
+
+isi saldo adalah opsi untuk mengisi saldo pada akun. Saldo yang diisi tidak dapat melebihi sepuluh juta.
+
+![image](https://user-images.githubusercontent.com/121864328/233101378-9e2f027f-f36d-4a08-ae35-d084de869385.png)
+
+##### Cek Profil
+
+Cek profil adalah opsi untuk melihat data profil yaitu username, password, dan jumlah saldo
+
+![image](https://user-images.githubusercontent.com/121864328/233101921-4c2e74e1-bd05-442a-8dea-577bd276ba68.png)
+
+##### Urutkan data pesawat
+
+Opsi ini adalah untuk mengsortir layanan penerbangan berdasarkan huruf abjad
+
+![image](https://user-images.githubusercontent.com/121864328/233102252-7f7c4769-649f-44db-a6b1-08bbb05b0dc4.png)
+ 
+##### Sign Out 
+ 
+Pilih opsi ini untuk keluar dari akun.
+
+### **Menu Admin**
+
+![image](https://user-images.githubusercontent.com/121864328/233102910-a53931ab-80bd-4f13-a301-defe0f600d4e.png)
+
+Ketika login sebagai admin menggunakan akun admin, akan diarahkan ke tampilan khusus admin yaitu "Tambah Pesawat", "Lihat Pesawat", "Edit Pesawat", "Hapus Pesawat", dan "Sign Out".
+
+##### Tambah Pesawat
+
+Opsi tambah pesawat adalah opsi bagi admin untuk menambahkan penerbangan dengan memasukkan beberapa data seperti nama, tujuan, harga, dan lain lain
+
+![image](https://user-images.githubusercontent.com/121864328/233104372-44eebe22-25b1-42e9-902a-5289085c0eba.png)
+
+##### Lihat Pesawat
+
+Sama seperti user, terdapat opsi untuk melihat penerbangan yang tersedia
+
+![image](https://user-images.githubusercontent.com/121864328/233104507-b1a95c83-fc96-4842-bc56-55e111eec1a5.png)
+
+##### Edit Pesawat
+
+Edit pesawat adalah fungsi update yang berfungsi untuk memperbarui data pesawat. Admin perlu memasukkan id pesawat yang ingin diubah dan data yang ingin diubah 
+
+![image](https://user-images.githubusercontent.com/121864328/233105493-a4511243-cc60-4f40-bf44-e1d8d1142cd2.png)
+
+![image](https://user-images.githubusercontent.com/121864328/233105997-4723cef2-dec9-4d31-9e36-6acee1a2f792.png)
+
+##### Hapus Pesawat
+
+Hapus pesawat adalah fungsi yang memunginkan bagi admin untuk menghapus layanan pesawat yang diinginkan dengan memasukkan id pesawat.
+
+![image](https://user-images.githubusercontent.com/121864328/233106473-1875cef5-f2e7-4b25-99db-58e4afddc435.png)
+
+
+
+
+
 
 
 -------------------
