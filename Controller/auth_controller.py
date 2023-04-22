@@ -51,6 +51,12 @@ class User:
                         if not email:
                             print("Email tidak boleh kosong!")
                             return False
+                        elif email.count("@") > 1:
+                            print("Email hanya boleh satu simbol @!")
+                            return False
+                        elif email == db.dataAcc.find_one({"email": email}):
+                            print("Email sudah digunakan!")
+                            return False
                         elif re.search("[^A-Za-z0-9@.]", email):
                             print("Email hanya boleh terdiri dari huruf, angka, dan karakter simbol seperti @ dan .!")
                             return False

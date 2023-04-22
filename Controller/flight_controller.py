@@ -2,6 +2,7 @@ from Model import database as db
 from prettytable import PrettyTable
 import random
 import os
+import re
 
 class Node:
     def __init__(self, data=None):
@@ -87,20 +88,35 @@ class LinkedList:
             if not departureTime:
                 print("Waktu keberangkatan tidak boleh kosong!\n")
                 return
+            elif re.match(r"([01]?[0-9]|2[0-3]):[0-5][0-9]", departureTime) is None:
+                print("Format waktu keberangkatan salah!\n")
+                return
             
             arrivalTime = str(input("> Waktu Kedatangan (hh:mm): "))
             if not arrivalTime:
                 print("Waktu kedatangan tidak boleh kosong!\n")
+                return
+            elif re.match(r"([01]?[0-9]|2[0-3]):[0-5][0-9]", arrivalTime) is None:
+                print("Format waktu kedatangan salah!\n")
                 return
             
             dateTime = str(input("> Tanggal Keberangkatan (yyyy-mm-dd): "))
             if not dateTime:
                 print("Tanggal keberangkatan tidak boleh kosong!\n")
                 return
+            elif len(dateTime) != 10:
+                print("Format tanggal salah!\n")
+                return
+            elif re.match(r"([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))", dateTime) is None:
+                print("Format tanggal salah!\n")
+                return
             
             price = int(input("> Harga tiket: "))
             if not price:
                 print("Harga tiket tidak boleh kosong!\n")
+                return
+            elif price < 0:
+                print("Harga tiket tidak boleh kurang dari 0!\n")
                 return
 
             def idFlight():
@@ -145,6 +161,7 @@ class LinkedList:
                         return "XX" + str(random.randint(100, 999))
                     else:
                         return "XX" + str(random.randint(100, 999))
+        
 
             new_flight = {
                 "idFlight": idFlight(),
