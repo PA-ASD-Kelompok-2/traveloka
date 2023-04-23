@@ -13,7 +13,7 @@
 * [**Instalasi modul**](#Instalasi-modul)
 * [**Struktur Program**](#Struktur-Program)
 * [**Cara Penggunaan**](#Cara-Penggunaan)
-    * [**Opsi Awal**](#Opsi-Awal)
+    * [**Opsi Awal dan Registrasi**](#Opsi-Awal)
     * [**Tampilan User**](#Tampilan-User)
     * [**Tampilan Admin**](#Menu-Admin)
 * [**Penjelasan Program**](#Penjelasan-Program)
